@@ -13,10 +13,9 @@ This basically is pretty simple "menu" with some effects for remote control of a
 ## About
 
 **There is:**
-&emsp; 2 - static effects
-&emsp; 4 - dynamic effects
-&emsp; 3 - presets 
-&emsp;&emsp;+ settings for them
+- 2 - static effects + settings for them
+- 4 - dynamic effects + settings for them
+- 3 - presets 
 
 **Effects:**
 - Static:
@@ -32,8 +31,8 @@ This basically is pretty simple "menu" with some effects for remote control of a
 	- Preset rainbow
 
 **Used:**
-&emsp; [IRLremote](https://github.com/NicoHood/IRLremote) library
-&emsp; [FastLED](https://github.com/FastLED/FastLED) library
+- [IRLremote](https://github.com/NicoHood/IRLremote) library
+- [FastLED](https://github.com/FastLED/FastLED) library
 
 > Somebody: *So, how it works?*
 > Me: *Magic*
