@@ -59,14 +59,14 @@
 
 
 //----- LED strip settings
-#define NUM_LEDS 30
-#define CURRENT_LIMIT 2000
-CRGB leds[NUM_LEDS];
-byte brightness = 100;
-byte current_effect = 1;
+#define NUM_LEDS 30		// How much leds are in the strip
+#define CURRENT_LIMIT 2000		// Current limitation
+CRGB leds[NUM_LEDS];		// Define strip
+byte brightness = 100;		// Main brightness of strip
+byte current_effect = 1;		// Effect of strip
 unsigned long timer_delay;		// Var for millis delay
-boolean play_flag = true;
-boolean eq_flag = false;
+boolean play_flag = true;		// Set Play/Pause
+boolean eq_flag = false;		// Mode for brightness change
 byte channel = 0;		// Cahnnel for three_param class  
 
 
@@ -74,16 +74,34 @@ byte channel = 0;		// Cahnnel for three_param class
 CHashIR IRLremote;		// IR protocol of my remote
 uint32_t ir_data;		// Current info from IR sensor
 uint32_t last_butt;		// Stores last pressed button
-boolean ir_flag;		// IR signal received 
+boolean ir_flag = false;		// IR signal received 
 boolean butt_held_flag = false;		// Button currently held down
 byte adj = 5;		// Standard adjustment value
+
+
+//----- Serial settings
+boolean serial_flag = false;	// Received data from Serial port
+int serial_data[8];		// For useful incoming serial data
+const uint8_t buff_len = 7;		// Buffer size
+char buff[buff_len];		// Buffer
+uint8_t buff_i = 0;		// Buffer index
+uint8_t arr_i = 0;		// Number array index
+
+/*
+	Received data:
+	
+	[0] - Effect number (current_effect = 1..6)
+	[1] - delay (1 - sets brightness in case serial_data[0] == 0)
+	[2...4] - three parameters of color1 (2 - in rainbow used for rainbow size) (2 - siren_reverse in Police siren)
+	[5...7] - three parameters of color2
+*/
 
 
 //==================== Effects ====================
 
 //----- Main effects on remote by buttons
 #define SET_COLOR_HSV 1
-#define SET_GRADIENT_HSV 2
+#define SET_GRADIENT 2
 
 #define RAINBOW 3
 #define POLICE_SIREN 4
@@ -93,6 +111,19 @@ byte adj = 5;		// Standard adjustment value
 #define PRESET_COLOR 7
 #define PRESET_GRADIENT 8
 #define PRESET_RAINBOW 9
+
+#define SET_COLOR_RGB 10
+#define SET_BRIGHTNESS 0	// For brightness change
+
+
+//----- Prints data received from serial
+void print_serial_data(){		// DEBUG
+	Serial.print("Effect num: "); Serial.println(serial_data[0]);
+	Serial.print("Delay time: "); Serial.println(serial_data[1]);
+	Serial.print("Color 1: "); Serial.print(serial_data[2]); Serial.print(" "); Serial.print(serial_data[3]); Serial.print(" "); Serial.println(serial_data[4]);
+	Serial.print("Color 2: "); Serial.print(serial_data[5]); Serial.print(" "); Serial.print(serial_data[6]); Serial.print(" "); Serial.println(serial_data[7]);
+	
+}
 
 
 //----- The delay function
@@ -119,6 +150,8 @@ void fill_half(boolean first_half, CRGB color){
 	}
 }
 
+
+// Fills a few leds from start or from the end of strip
 void fill_few(boolean first_half, CRGB color, byte amount = 10){
 	if(first_half){
 		for(int i = 0; i < amount; i++) {
@@ -181,33 +214,28 @@ void Set_Colour_HSV(byte ch1, byte ch2, byte ch3){
 
 
 //----- Gradient
-byte gradient_color_1[3] = {0, 255, 255};		// Array of colors (default red in HSV)
-byte gradient_color_2[3] = {0, 255, 255};		// Array of colors (default red in HSV)
-boolean gradient_mode_flag = true;		// Choose which color should be changed (first or second) (default true - first color)
-boolean gradient_reverse_flag = false;		// Changes direction of "Gradient" effect (default false)
+byte gradient_color_1[3] = {255, 0, 0};		// First color of gradient (default red in RGB)
+byte gradient_color_2[3] = {0, 0, 255};		// Second color of gradient (default blue in RGB)
+float gradient_index = (float)255 / NUM_LEDS;		// Num to fill with gradient all the strip
+boolean gradient_first_color_flag = true;		// All changes apply to first color (default true)
 
-void Gradient(boolean mode, boolean reverse){
-	if(mode){
-		if(!reverse){
-			fill_gradient(leds, NUM_LEDS, CHSV(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2]), CHSV(gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]), FORWARD_HUES);
-		}
-		else{
-			fill_gradient(leds, NUM_LEDS, CHSV(gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]), CHSV(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2]), FORWARD_HUES);
-		}
-	}
-	else{
-		if(!reverse){
-			fill_gradient(leds, NUM_LEDS, CHSV(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2]), CHSV(gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]), BACKWARD_HUES);
-		}
-		else{
-			fill_gradient(leds, NUM_LEDS, CHSV(gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]), CHSV(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2]), BACKWARD_HUES);
-		}
+void Gradient(byte ch1, byte ch2, byte ch3, byte ch4, byte ch5, byte ch6){
+	byte counter = 0;
+
+	CRGB col1 = CRGB(ch1, ch2, ch3);
+	CRGB col2  = CRGB(ch4, ch5, ch6);
+
+	CRGBPalette16 my_pal = CRGBPalette16( col1, col2);
+
+	for( int i = 0; i < NUM_LEDS; ++i){
+		leds[i] = ColorFromPalette( my_pal, counter * gradient_index);
+		counter++;
 	}
 }
 
 
 //----- Rainbow (HSV)
-byte rainbow_delta_hue;
+byte rainbow_delta_hue;		// Delta hue to move rainbow
 byte rainbow_size = 7;		// Size of rainbow on the strip, "255/NUM_LEDS" - full transition over the length of strip (default 7 merely full strip)
 byte rainbow_delay = 20;		// Speed of "rainbow" transition, delay between strip updates (default 20 ms)
 
@@ -222,7 +250,7 @@ void Rainbow(byte size, byte delay){
 
 
 //----- Police siren
-byte siren_counter = 0;
+byte siren_counter = 0;		// Count blinks for double blink animation
 byte siren_delay = 40;		// Speed of "police siren" transition, delay between strip updates (default 10 ms)
 boolean siren_reverse = false;		// Changes direction of "police siren" animation (default false)
 boolean siren_on_flag = false;		// Leds are currently on (default false - off)
@@ -322,6 +350,7 @@ void Matrix(byte ch1, byte ch2, byte ch3, byte delay){
 
 //==================== Functions ====================
 
+//----- Sets or unsets pause 
 void PlayPause(){
 	if(play_flag){
 		play_flag = false;
@@ -336,6 +365,7 @@ void PlayPause(){
 }
 
 
+//----- Activates brightness change mode
 void EQ_active(){
 	if(eq_flag == false){
 		eq_flag = true;
@@ -350,6 +380,7 @@ void EQ_active(){
 }
 
 
+//----- Set value of byte param
 void Set_value(byte &parameter, byte val){
 	byte *ptr = &parameter;
 	*ptr = val;
@@ -358,6 +389,16 @@ void Set_value(byte &parameter, byte val){
 }
 
 
+//----- Set value of boolean param
+void Set_value_boolean(boolean &parameter, boolean val){
+	boolean *ptr = &parameter;
+	*ptr = val;
+
+	Serial.println(*ptr);		// DEBUG
+}
+
+
+//----- Adjusts value of choosen param
 void Adjust_parameter(byte &parameter, int val, byte min = 0, byte max = 255){
 	byte *ptr = &parameter;
 
@@ -375,7 +416,38 @@ void Adjust_parameter(byte &parameter, int val, byte min = 0, byte max = 255){
 }
 
 
-void Process_received(){
+//----- Get data from serial
+void Serial_receive(){
+	if (Serial.available() > 0){
+		serial_flag = true;
+	}
+
+	while (Serial.available() > 0){
+		char c = Serial.read();
+		
+		if (buff_i < buff_len-1){		// Check if buffer is full
+			
+			if (c == ' '){		// Check if got number terminator
+				buff[buff_i++] = 0;		// Terminate the string
+				buff_i = 0;		// Reset the buffer index
+				serial_data[arr_i++] = atoi(buff);		// Convert the string to int
+				
+				if (arr_i == 8){		// If got all three numbers
+					arr_i = 0;		// Reset the number array index
+
+					print_serial_data();		// DEBUG
+				}
+			}
+			else if ('0' <= c && c <= '9'){		// If valid digit
+				buff[buff_i++] = c;		// Put the char into the buffer
+			}
+		}
+	}  
+}
+
+
+//----- Process data from remote
+void Remote_process(){
 	if(eq_flag){
 		switch (last_butt){
 			case MINUS: Adjust_parameter(brightness, -adj); break;
@@ -402,8 +474,8 @@ void Process_received(){
 				}
 				break;
 
-			case SET_GRADIENT_HSV:
-				if (gradient_mode_flag){
+			case SET_GRADIENT:
+				if(gradient_first_color_flag){
 					switch (last_butt){
 						case MINUS:	Adjust_parameter(gradient_color_1[channel], -adj); break;
 						case PLUS: Adjust_parameter(gradient_color_1[channel], adj); break;
@@ -427,11 +499,12 @@ void Process_received(){
 				}
 
 				switch (last_butt){
-					case PREVIOUS: gradient_mode_flag = true; break;
-					case NEXT: gradient_mode_flag = false; break;
-					
+					case PREVIOUS:	gradient_first_color_flag = true; break;
+					case NEXT:	gradient_first_color_flag = false; break;
+				
 					default:	break;
 				}
+				
 				break;
 
 			case RAINBOW:
@@ -500,13 +573,78 @@ void Process_received(){
 				break;
 			
 			default:
-				current_effect = 1;
 				break;
 		}
 	}	
 }
 
 
+//----- Process data from serial
+void Serial_process(){
+	byte temp_effect_num = current_effect;
+	current_effect = (byte)serial_data[0];
+	
+	switch (current_effect){
+		case SET_BRIGHTNESS:
+			Set_value(brightness, (byte)serial_data[1]);
+			FastLED.setBrightness(brightness);
+			current_effect = temp_effect_num;
+			break;
+		
+		case SET_COLOR_HSV: 
+			Set_value(set_hsv_color[0], (byte)serial_data[2]);
+			Set_value(set_hsv_color[1], (byte)serial_data[3]);
+			Set_value(set_hsv_color[2], (byte)serial_data[4]);
+			break;
+
+		case SET_GRADIENT:
+			Set_value(gradient_color_1[0], (byte)serial_data[2]);
+			Set_value(gradient_color_1[1], (byte)serial_data[3]);
+			Set_value(gradient_color_1[2], (byte)serial_data[4]);
+			Set_value(gradient_color_2[0], (byte)serial_data[5]);
+			Set_value(gradient_color_2[1], (byte)serial_data[6]);
+			Set_value(gradient_color_2[2], (byte)serial_data[7]);			
+			break;
+
+		case RAINBOW: 
+			Set_value(rainbow_delay, (byte)serial_data[1]);
+			Set_value(rainbow_size, (byte)serial_data[2]);
+			break;
+
+		case POLICE_SIREN:
+			Set_value(siren_delay, (byte)serial_data[1]);
+			Set_value_boolean(siren_reverse, serial_data[2]);
+			break;
+
+		case STROBE:
+			Set_value(strobe_color[0], (byte)serial_data[2]);
+			Set_value(strobe_color[1], (byte)serial_data[3]);
+			Set_value(strobe_color[2], (byte)serial_data[4]);
+			Set_value(strobe_delay, (byte)serial_data[1]);
+			break;
+
+		case MATRIX:
+			Set_value(matrix_color[0], (byte)serial_data[2]);
+			Set_value(matrix_color[1], (byte)serial_data[3]);
+			Set_value(matrix_color[2], (byte)serial_data[4]);
+			Set_value(matrix_delay, (byte)serial_data[1]);
+			break;
+
+		case SET_COLOR_RGB:
+			Set_value(set_rgb_color[0], (byte)serial_data[2]);
+			Set_value(set_rgb_color[1], (byte)serial_data[3]);
+			Set_value(set_rgb_color[2], (byte)serial_data[4]);
+			break;
+		
+		default:
+			break;
+	}
+
+	serial_flag = false;
+}
+
+
+//----- Get data from remote
 void Remote_receive(){
 	butt_held_flag = false;
 
@@ -575,7 +713,7 @@ void Remote_receive(){
 				break;
 			case BUTT_2:
 				Serial.println(F("2"));		// DEBUG
-				current_effect = SET_GRADIENT_HSV;
+				current_effect = SET_GRADIENT;
 				Mode_change();
 				break;
 			case BUTT_3:
@@ -634,17 +772,17 @@ void Remote_receive(){
 				break;
 		}
 		ir_flag = false;
-		// Debounce_delay(80);
-		Process_received();
+		Remote_process();
 	}
 }
 
 
+//----- Main function for displaying effects
 void Show_effect(){
 	if(play_flag){
 		switch (current_effect){
 			case SET_COLOR_HSV: Set_Colour_HSV(set_hsv_color[0], set_hsv_color[1], set_hsv_color[2]); break;
-			case SET_GRADIENT_HSV: Gradient(gradient_mode_flag, gradient_reverse_flag); break;
+			case SET_GRADIENT: Gradient(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2], gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]); break;
 			case RAINBOW: Rainbow(rainbow_size, rainbow_delay); break;
 			case POLICE_SIREN: Police_siren(siren_delay); break;
 			case STROBE: Strobe(strobe_color[0], strobe_color[1], strobe_color[2], strobe_delay); break;
@@ -653,8 +791,9 @@ void Show_effect(){
 			case PRESET_COLOR: fill_solid(leds, NUM_LEDS, CRGB::Aqua); break;
 			case PRESET_GRADIENT: fill_gradient(leds, NUM_LEDS, CHSV(180, 255, 255), CHSV(60, 255, 255), FORWARD_HUES); break;
 			case PRESET_RAINBOW: Rainbow(3, 30); break;
+			case SET_COLOR_RGB: Set_Colour_RGB(set_rgb_color[0], set_rgb_color[1], set_rgb_color[2]); break;
 			
-			default: current_effect = 1; break;
+			default: break;
 		}
 	}
 	if(eq_flag){
@@ -665,7 +804,7 @@ void Show_effect(){
 		fill_few(true, CRGB::Black);
 		fill_few(true, CRGB::Red, 3);
 	}
-
+	
 	FastLED.show();
 }
 
@@ -689,17 +828,23 @@ void setup() {
 	FastLED.setMaxPowerInVoltsAndMilliamps(5, CURRENT_LIMIT);
 	FastLED.setBrightness(brightness);
 
-	 Start_up();
+	Start_up();
 }
 
 void loop() {
 	if (!IRLremote.receiving()){
 		Show_effect();
-  }
+	}
+
+	Serial_receive();
 
 	Remote_receive();
 
-	if (ir_flag){
-		Process_received();
+	if(serial_flag){
+		Serial_process();
+	}
+
+	if(ir_flag){
+		Remote_process();
 	}
 }
