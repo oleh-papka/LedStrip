@@ -418,10 +418,6 @@ void Adjust_parameter(byte &parameter, int val, byte min = 0, byte max = 255){
 
 //----- Get data from serial
 void Serial_receive(){
-	if (Serial.available() > 0){
-		serial_flag = true;
-	}
-
 	while (Serial.available() > 0){
 		char c = Serial.read();
 		
@@ -436,6 +432,7 @@ void Serial_receive(){
 					arr_i = 0;		// Reset the number array index
 
 					print_serial_data();		// DEBUG
+					serial_flag = true;
 				}
 			}
 			else if ('0' <= c && c <= '9'){		// If valid digit

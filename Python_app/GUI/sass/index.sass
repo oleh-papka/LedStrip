@@ -1,0 +1,89 @@
+// ==== Variables ====
+
+$background_color: #2e3849
+$background_color_secondary: #3d4b63
+$text_color: #dbfdff
+$header_color: #dfe7ff
+
+// ==== Resert ====
+	
+*
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+html, body
+	height: 100%
+	width: 100%
+	font-family: 'Open Sans', sans-serif
+	color: $text_color
+	background-color: $background_color
+
+h1, h2, h3
+	font-weight: 600
+	color: $header_color
+
+// ==== Main ====
+
+.greeting
+	display: flex
+	justify-content: center
+	margin: 20px 0 0
+	user-select: none
+
+section
+	margin: 20px 0
+	display: flex
+	flex-direction: row
+	flex-wrap: wrap
+	align-items: center
+	justify-content: center
+
+a
+	text-decoration: none
+	color: inherit
+	margin: 15px 15px
+
+article
+	max-height: 400px
+	width: 250px
+	display: flex
+	flex-direction: column
+	align-items: center
+	border-radius: 25px
+	background-color: $background_color_secondary
+	box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.15)
+	border: 1px solid rgba(255,255,255,0.1)
+
+	&:hover
+		box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.25)
+		border: 1px solid rgba(255,255,255,0.2)
+
+	h2
+		margin: 10px 0
+
+	.photo
+		height: 120px
+		width: 230px
+		overflow: hidden
+		border-radius: 15px
+
+		img
+			height: 100%
+			width: 100%
+			object-fit: cover	
+
+	.text
+		width: 230px
+		margin: 10px 0 15px
+		
+		p
+			line-height: 1.5rem
+			font-weight: 400
+			margin: 0 5px
+
+	
+			
+
+
+
