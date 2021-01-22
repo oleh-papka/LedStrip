@@ -1,0 +1,238 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  background-color: #373d4b;
+}
+
+section {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+article {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 25px;
+  background-color: #303241;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+p {
+  font-weight: 400;
+  color: #dfdfdf;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  margin: 15px 15px;
+}
+
+input, button {
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
+  font: inherit;
+  color: #0f0c29;
+  background-color: #dfdfdf;
+  border-radius: 10px;
+  line-height: 1.5rem;
+  padding: 5px 10px;
+  width: 100px;
+  text-align: center;
+  caret-color: #5378e0;
+  margin: 10px 0 15px;
+}
+
+button {
+  width: 100px;
+  border: 2px solid #5379e088;
+  color: #dfdfdf;
+  background-color: #303241;
+}
+
+button:hover {
+  color: #5378e0;
+  background-color: #303241a2;
+  border: 2px solid #5378e0;
+}
+
+.greeting {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: 20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+section {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 20px auto 0;
+  max-width: 400px;
+  background-color: #303241;
+  border-radius: 20px;
+}
+
+section .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+article {
+  width: 120px;
+  min-height: 180px;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin: 15px;
+  text-align: center;
+  background-color: #373d4b;
+}
+
+article h2 {
+  margin: 5px 0;
+}
+
+article input {
+  margin: 5px 0;
+}
+
+#type {
+  width: 180px;
+}
+
+#type input {
+  width: 15px;
+  height: 15px;
+}
+
+.inputs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.inputs .row {
+  margin: 3px 0;
+}
+
+label {
+  text-align: start;
+  width: 100%;
+  margin: auto 7px;
+  cursor: pointer;
+}
+
+button {
+  width: 300px;
+  height: 50px;
+  border-radius: 15px;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  line-height: 26px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #dfdfdf;
+  border-radius: 50%;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #5378e0;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}

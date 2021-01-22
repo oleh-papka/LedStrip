@@ -228,7 +228,7 @@ void Gradient(byte ch1, byte ch2, byte ch3, byte ch4, byte ch5, byte ch6){
 	CRGBPalette16 my_pal = CRGBPalette16( col1, col2);
 
 	for( int i = 0; i < NUM_LEDS; ++i){
-		leds[i] = ColorFromPalette( my_pal, counter * gradient_index);
+		leds[i] = ColorFromPalette(my_pal, counter * floor(gradient_index));
 		counter++;
 	}
 }
@@ -355,12 +355,10 @@ void PlayPause(){
 	if(play_flag){
 		play_flag = false;
 		Serial.println(F("===== On Pause ====="));		// DEBUG
-		Debounce_delay(1000);
 	}
 	else {
 		play_flag = true;
 		Serial.println(F("===== Now Playing ====="));		// DEBUG
-		Debounce_delay(1000);
 	}
 }
 
@@ -370,12 +368,10 @@ void EQ_active(){
 	if(eq_flag == false){
 		eq_flag = true;
 		Serial.println(F("===== Now EQ active ====="));		// DEBUG
-		Debounce_delay(1000);
 	}
 	else{
 		eq_flag = false;
 		Serial.println(F("===== EQ disabled ====="));		// DEBUG
-		Debounce_delay(1000);
 	}
 }
 

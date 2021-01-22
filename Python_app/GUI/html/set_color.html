@@ -7,7 +7,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/set_color.css">
 
 	<script type="text/javascript" src="/eel.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -16,9 +16,32 @@
 </head>
 
 <body>
-	<h1 class="greeting">Set color HSV: </h1>
+	<h1 class="greeting">Set color: </h1>
 
+	<section >
+		<div class="row">
+			
+			<article>
+				<h2>Choose color</h2>
 
+				<input type="color" name="col" id="color_picker" value="#5378e0">
+			</article>
+	
+			<article>
+				<h2>Color code</h2>
+	
+				<div class="inputs">
+					<input type="tel" placeholder="#code" class="code">
+				</div>
+				
+			</article>
+		</div>
+		
+
+		<button type="submit">Set strip</button>
+	</section>
+
+	
 
 	<script src = "../js/script.js"></script>
 </body>

@@ -1,0 +1,95 @@
+// ALl main sass styles collected	
+	
+// ==== Variables ====
+
+$background-color: #373d4b
+$item-color:	#303241
+$accet-color: #5378e0
+
+$text-primary-color: #ffffff
+$text-secondary-color: #dfdfdf
+$text-dark: #0f0c29
+
+$font: 'Open Sans', sans-serif
+
+
+// ==== Reset ====
+
+*
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+html, body
+	height: 100%
+	width: 100%
+	font-family: $font
+	background-color: $background-color
+
+section
+	margin-top: 20px
+	display: flex
+	flex-direction: row
+	flex-wrap: wrap
+	align-items: center
+	justify-content: center
+
+article
+	display: flex
+	flex-direction: column
+	align-items: center
+	border-radius: 25px
+	background-color: $item-color
+	border: 1px solid rgba(255,255,255,0)
+
+
+h1, h2, h3
+	font-weight: 600
+	color: $text-primary-color
+
+p
+	font-weight: 400
+	color: $text-secondary-color
+
+a
+	text-decoration: none
+	color: inherit
+	margin: 15px 15px
+
+input, button
+	outline: none
+	box-shadow: none
+	border: none
+	font: inherit
+	color: $text-dark
+	background-color: $text-secondary-color
+	border-radius: 10px
+	line-height: 1.5rem
+	padding: 5px 10px
+	width: 100px
+	text-align: center
+	caret-color: $accet-color
+	margin: 10px 0 15px
+
+button
+	width: 100px
+	border: 2px solid #5379e088
+	color: $text-secondary-color
+	background-color: $item-color
+
+	&:hover
+		color: $accet-color
+		background-color: #303241a2
+		border: 2px solid $accet-color
+
+		
+
+		
+
+// ==== Main ====
+
+.greeting
+	display: flex
+	justify-content: center
+	padding-top: 20px
+	user-select: none

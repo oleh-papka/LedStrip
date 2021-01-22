@@ -107,40 +107,44 @@ button:hover {
           user-select: none;
 }
 
-article {
-  max-height: 400px;
-  width: 250px;
+section {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 30px auto 0;
+  max-width: 330px;
+  background-color: #303241;
+  border-radius: 20px;
 }
 
-article:hover {
-  border: 1px solid #5379e098;
+section .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+article {
+  width: 120px;
+  min-height: 150px;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin: 15px;
+  text-align: center;
+  background-color: #373d4b;
 }
 
 article h2 {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
-article .photo {
-  height: 120px;
-  width: 230px;
-  overflow: hidden;
+article input {
+  margin: 5px 0;
+}
+
+button {
+  width: 220px;
+  height: 50px;
   border-radius: 15px;
-}
-
-article .photo img {
-  height: 100%;
-  width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-article .text {
-  width: 230px;
-  margin: 10px 0 15px;
-}
-
-article .text p {
-  line-height: 1.5rem;
-  font-weight: 400;
-  margin: 0 5px;
 }

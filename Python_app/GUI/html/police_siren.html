@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="/css/police_siren.css">
+
+	<script type="text/javascript" src="/eel.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+	<title>LedStrip_PC_control</title>
+</head>
+
+<body>
+	<h1 class="greeting">Police siren animation: </h1>
+
+	<section >
+		<div class="row">
+			<article>
+				<h2>Speed</h2>
+	
+				<div class="inputs">
+					<input type="tel" placeholder="Speed" class="speed">
+				</div>
+			</article>
+	
+			<article id="type">
+				<h2>Type</h2>
+	
+				<div class="inputs">
+					<div class="row">
+						<label class="container">
+							<p>Just Blue</p>
+							<input type="radio" checked="checked" id="blue" value="0" name="radio">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					
+					<div class="row">
+						<label class="container">
+							<p>Red&Blue</p>
+							<input type="radio" id="red&blue" value="1" name="radio">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</div>
+			</article>
+		</div>
+		
+
+		<button type="submit">Set strip</button>
+	</section>
+
+	<script src = "../js/script.js"></script>
+</body>
+</html>
