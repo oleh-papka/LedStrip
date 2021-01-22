@@ -93,6 +93,10 @@ button:hover {
   border: 2px solid #5378e0;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .greeting {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -7,10 +7,11 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="/css/police_siren.css">
+	<link rel="stylesheet" href="../css/police_siren.css">
 
+	<script type="text/javascript" src="../js/script.js"></script>
 	<script type="text/javascript" src="/eel.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	
 
 	<title>LedStrip_PC_control</title>
 </head>
@@ -24,7 +25,7 @@
 				<h2>Speed</h2>
 	
 				<div class="inputs">
-					<input type="tel" placeholder="Speed" class="speed">
+					<input type="tel" placeholder="Speed" id="speed">
 				</div>
 			</article>
 	
@@ -51,10 +52,7 @@
 			</article>
 		</div>
 		
-
-		<button type="submit">Set strip</button>
+		<button type="button" onclick="get_police_siren()">Set strip</button>
 	</section>
-
-	<script src = "../js/script.js"></script>
 </body>
 </html>

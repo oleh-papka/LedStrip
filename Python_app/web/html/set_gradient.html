@@ -7,10 +7,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="/css/set_gradient.css">
+	<link rel="stylesheet" href="../css/set_gradient.css">
 
+	<script type="text/javascript" src="../js/script.js"></script>
 	<script type="text/javascript" src="/eel.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 	<title>LedStrip_PC_control</title>
 </head>
@@ -28,16 +28,6 @@
 
 				<input type="color" name="col" id="color_picker1" value="#5378e0">
 			</article>
-			
-	
-			<article>
-				<h2>Color code</h2>
-	
-				<div class="inputs">
-					<input type="tel" placeholder="#code" class="code1">
-				</div>
-				
-			</article>
 		</div>
 
 		<h2 class="divider nomargin">Color 2:</h2>
@@ -47,23 +37,10 @@
 
 				<input type="color" name="col" id="color_picker2" value="#5378e0">
 			</article>
-	
-			<article>
-				<h2>Color code</h2>
-	
-				<div class="inputs">
-					<input type="tel" placeholder="#code" class="code2">
-				</div>
-				
-			</article>
 		</div>
 		
 
-		<button type="submit">Set strip</button>
+		<button type="button" onclick="get_gradient()">Set strip</button>
 	</section>
-
-	
-
-	<script src = "../js/script.js"></script>
 </body>
 </html>

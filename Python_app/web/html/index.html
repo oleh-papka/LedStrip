@@ -7,10 +7,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="../css/index.css">
 
+	<script type="text/javascript" src="../js/script.js"></script>
 	<script type="text/javascript" src="/eel.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	
 	<title>LedStrip_PC_control</title>
 </head>
@@ -18,12 +18,24 @@
 <body>
 	<h1 class="greeting">Choose your mode: </h1>
 
-	<section>		
+	<section>
+		<a href="brightness.html">
+			<article>
+				<h2>Set brightness</h2>
+				<div class="photo">
+					<img src="../img/set_brightness.png" alt="example_img">
+				</div>
+				<div class="text">
+					<p>Modify brightness of leds on the strip</p>
+				</div>
+			</article>
+		</a>
+
 		<a href="set_color.html">
 			<article>
 				<h2>Set color</h2>
 				<div class="photo">
-					<img src="../src/example.jpg" alt="example_img">
+					<img src="../img/set_color.jpg" alt="example_img">
 				</div>
 				<div class="text">
 					<p>Fills all leds on the strip with choosen color</p>
@@ -35,7 +47,7 @@
 			<article>
 				<h2>Set Gradient</h2>
 				<div class="photo">
-					<img src="../src/example.jpg" alt="example_img">
+					<img src="../img/set_gradient.jpg" alt="example_img">
 				</div>
 				<div class="text">
 					<p>Fills all leds with smooth two choosen colors gradient</p>
@@ -47,7 +59,7 @@
 			<article>
 				<h2>Rainbow anim.</h2>
 				<div class="photo">
-					<img src="../src/example.jpg" alt="example_img">
+					<img src="../img/rainbow.jpg" alt="example_img">
 				</div>
 				<div class="text">
 					<p>Smooth running rainbow animation</p>
@@ -59,7 +71,7 @@
 			<article>
 				<h2>Police siren anim.</h2>
 				<div class="photo">
-					<img src="../src/example.jpg" alt="example_img">
+					<img src="../img/police_siren.jfif" alt="example_img">
 				</div>
 				<div class="text">
 					<p>Police siren animation, one or two color (crazy)</p>
@@ -71,15 +83,26 @@
 			<article>
 				<h2>Strobe anim.</h2>
 				<div class="photo">
-					<img src="../src/example.jpg" alt="example_img">
+					<img src="../img/strobe.jpg" alt="example_img">
 				</div>
 				<div class="text">
 					<p>Just one choosen color strobe animation</p>
 				</div>
 			</article>
 		</a>
+
+		<a href="matrix.html">
+			<article>
+				<h2>Matrix anim.</h2>
+				<div class="photo">
+					<img src="../img/matrix.jpg" alt="example_img">
+				</div>
+				<div class="text">
+					<p>Just one choosen color matrix animation</p>
+				</div>
+			</article>
+		</a>
 	</section>
 	
-	<script src = "../js/script.js"></script>
 </body>
 </html>

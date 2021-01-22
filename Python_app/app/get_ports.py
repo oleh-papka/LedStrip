@@ -1,5 +1,5 @@
 """
-	Sketch for getting number available serial ports
+	Sketch for getting number of available serial ports
 
 	Raises:
 		EnvironmentError: ['Unsupported platform']

@@ -4,6 +4,8 @@ Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMus
 
 This basically is pretty simple "menu" with some effects for remote control of addressable LED strip.
 
+Also added control from the PC via serial port
+
 **Based on:**
 - Addres LED strip ws2812b
 - Arduino Nano
@@ -40,9 +42,10 @@ This basically is pretty simple "menu" with some effects for remote control of a
 ## In future:
 - [ ] Add new presets and settings
 - [ ] Add display
-- [ ] Add PC data input
+- [x] Add PC data input
 - [ ] Add audio spectrum analyzer
 - [ ] Add auto brightness
+- [ ] Add new features to descktop app
 
 ## :octocat: Contributing
 

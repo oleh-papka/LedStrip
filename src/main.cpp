@@ -1,6 +1,7 @@
 /*
 	Menu for remote control of addressable LED strip
 	Static and dynamic effects
+	+ Control from PC via serial port
 
 	Based on: 
 		• Car_mp3 remote
@@ -112,18 +113,10 @@ uint8_t arr_i = 0;		// Number array index
 #define PRESET_GRADIENT 8
 #define PRESET_RAINBOW 9
 
+#define SET_BRIGHTNESS 0
 #define SET_COLOR_RGB 10
-#define SET_BRIGHTNESS 0	// For brightness change
-
-
-//----- Prints data received from serial
-void print_serial_data(){		// DEBUG
-	Serial.print("Effect num: "); Serial.println(serial_data[0]);
-	Serial.print("Delay time: "); Serial.println(serial_data[1]);
-	Serial.print("Color 1: "); Serial.print(serial_data[2]); Serial.print(" "); Serial.print(serial_data[3]); Serial.print(" "); Serial.println(serial_data[4]);
-	Serial.print("Color 2: "); Serial.print(serial_data[5]); Serial.print(" "); Serial.print(serial_data[6]); Serial.print(" "); Serial.println(serial_data[7]);
-	
-}
+#define SET_STROBE 11
+#define SET_MATRIX 12
 
 
 //----- The delay function
@@ -316,12 +309,12 @@ void Police_siren(byte delay){
 }
 
 
-//----- Strobe
-byte strobe_color[3] = {0, 255, 255};		// Array of colors (default red in HSV)
-byte strobe_delay = 100;	// Speed of "strobe" transition, delay between strip updates (default 100 ms)
+//----- Strobe HSV
+byte strobe_color_hsv[3] = {0, 255, 255};		// Array of colors (default red in HSV)
+byte strobe_delay_hsv = 100;	// Speed of "strobe" transition, delay between strip updates (default 100 ms)
 boolean strobe_on_flag = false;		// Leds are currently on (default false - off)
 
-void Strobe(byte ch1, byte ch2, byte ch3, byte delay){
+void Strobe_HSV(byte ch1, byte ch2, byte ch3, byte delay){
 	if (strobe_on_flag){
 		Debounce_delay(delay);
 		FastLED.clear();
@@ -335,17 +328,46 @@ void Strobe(byte ch1, byte ch2, byte ch3, byte delay){
 }
 
 
-//----- Matrix
-byte matrix_color[3] = {127, 255, 255};		// Array of colors (default IDK, looks like aqua in HSV)
-byte matrix_delay = 20;	// Speed of "matrix" transition, delay between strip updates (default 20 ms)
+//----- Strobe RGB
+byte strobe_color_rgb[3] = {0, 255, 255};		// Array of colors (RGB)
+byte strobe_delay_rgb = 100;	// Speed of "strobe" transition, delay between strip updates (default 100 ms)
 
-void Matrix(byte ch1, byte ch2, byte ch3, byte delay){
+void Strobe_RGB(byte ch1, byte ch2, byte ch3, byte delay){
+	if (strobe_on_flag){
+		Debounce_delay(delay);
+		FastLED.clear();
+		strobe_on_flag = false;
+	}
+	else{
+		Debounce_delay(delay);
+		fill_solid(leds, NUM_LEDS, CRGB(ch1, ch2, ch3));
+		strobe_on_flag = true;
+	}
+}
+
+
+//----- Matrix HSV
+byte matrix_color_hsv[3] = {127, 255, 255};		// Array of colors (default IDK, looks like aqua in HSV)
+byte matrix_delay_hsv = 20;		// Speed of "matrix" transition, delay between strip updates (default 20 ms)
+
+void Matrix_HSV(byte ch1, byte ch2, byte ch3, byte delay){
 	fadeToBlackBy(leds, NUM_LEDS, random(5, 50));
 
 	leds[random(0, NUM_LEDS)] = CHSV(ch1, ch2, ch3);
 	Debounce_delay(delay);	
 }
 
+
+//----- Matrix RGB
+byte matrix_color_rgb[3] = {0, 0, 0};		// Array of colors (RGB)
+byte matrix_delay_rgb = 20;		// Speed of "matrix" transition, delay between strip updates (default 20 ms)
+
+void Matrix_rgb(byte ch1, byte ch2, byte ch3, byte delay){
+	fadeToBlackBy(leds, NUM_LEDS, random(5, 50));
+
+	leds[random(0, NUM_LEDS)] = CRGB(ch1, ch2, ch3);
+	Debounce_delay(delay);	
+}
 
 
 //==================== Functions ====================
@@ -354,11 +376,9 @@ void Matrix(byte ch1, byte ch2, byte ch3, byte delay){
 void PlayPause(){
 	if(play_flag){
 		play_flag = false;
-		Serial.println(F("===== On Pause ====="));		// DEBUG
 	}
 	else {
 		play_flag = true;
-		Serial.println(F("===== Now Playing ====="));		// DEBUG
 	}
 }
 
@@ -367,11 +387,9 @@ void PlayPause(){
 void EQ_active(){
 	if(eq_flag == false){
 		eq_flag = true;
-		Serial.println(F("===== Now EQ active ====="));		// DEBUG
 	}
 	else{
 		eq_flag = false;
-		Serial.println(F("===== EQ disabled ====="));		// DEBUG
 	}
 }
 
@@ -380,8 +398,6 @@ void EQ_active(){
 void Set_value(byte &parameter, byte val){
 	byte *ptr = &parameter;
 	*ptr = val;
-
-	Serial.println(*ptr);		// DEBUG
 }
 
 
@@ -389,8 +405,6 @@ void Set_value(byte &parameter, byte val){
 void Set_value_boolean(boolean &parameter, boolean val){
 	boolean *ptr = &parameter;
 	*ptr = val;
-
-	Serial.println(*ptr);		// DEBUG
 }
 
 
@@ -407,8 +421,6 @@ void Adjust_parameter(byte &parameter, int val, byte min = 0, byte max = 255){
 	else {
 		*ptr += val;
 	}
-
-	Serial.println(*ptr);		// DEBUG
 }
 
 
@@ -426,8 +438,6 @@ void Serial_receive(){
 				
 				if (arr_i == 8){		// If got all three numbers
 					arr_i = 0;		// Reset the number array index
-
-					print_serial_data();		// DEBUG
 					serial_flag = true;
 				}
 			}
@@ -530,13 +540,13 @@ void Remote_process(){
 
 			case STROBE:
 				switch (last_butt){
-					case MINUS:	Adjust_parameter(strobe_color[channel], -adj); break;
-					case PLUS: Adjust_parameter(strobe_color[channel], adj); break;
-					case BUTT_0: Set_value(strobe_color[channel], 0);	break;
-					case BUTT_100: Set_value(strobe_color[channel], 127); break;
-					case BUTT_200: Set_value(strobe_color[channel], 255); break;
-					case PREVIOUS: Adjust_parameter(strobe_delay, -15); break;
-					case NEXT: Adjust_parameter(strobe_delay, 15); break;
+					case MINUS:	Adjust_parameter(strobe_color_hsv[channel], -adj); break;
+					case PLUS: Adjust_parameter(strobe_color_hsv[channel], adj); break;
+					case BUTT_0: Set_value(strobe_color_hsv[channel], 0);	break;
+					case BUTT_100: Set_value(strobe_color_hsv[channel], 127); break;
+					case BUTT_200: Set_value(strobe_color_hsv[channel], 255); break;
+					case PREVIOUS: Adjust_parameter(strobe_delay_hsv, -15); break;
+					case NEXT: Adjust_parameter(strobe_delay_hsv, 15); break;
 					
 					default:	break;
 				}
@@ -544,13 +554,13 @@ void Remote_process(){
 
 			case MATRIX:
 				switch (last_butt){
-					case MINUS:	Adjust_parameter(matrix_color[channel], -adj); break;
-					case PLUS: Adjust_parameter(matrix_color[channel], adj); break;
-					case BUTT_0: Set_value(matrix_color[channel], 0);	break;
-					case BUTT_100: Set_value(matrix_color[channel], 127); break;
-					case BUTT_200: Set_value(matrix_color[channel], 255); break;
-					case PREVIOUS: Adjust_parameter(matrix_delay, -15, 5); break;
-					case NEXT: Adjust_parameter(matrix_delay, 15); break;
+					case MINUS:	Adjust_parameter(matrix_color_hsv[channel], -adj); break;
+					case PLUS: Adjust_parameter(matrix_color_hsv[channel], adj); break;
+					case BUTT_0: Set_value(matrix_color_hsv[channel], 0);	break;
+					case BUTT_100: Set_value(matrix_color_hsv[channel], 127); break;
+					case BUTT_200: Set_value(matrix_color_hsv[channel], 255); break;
+					case PREVIOUS: Adjust_parameter(matrix_delay_hsv, -15, 5); break;
+					case NEXT: Adjust_parameter(matrix_delay_hsv, 15); break;
 					
 					default: break;
 				}
@@ -583,12 +593,6 @@ void Serial_process(){
 			FastLED.setBrightness(brightness);
 			current_effect = temp_effect_num;
 			break;
-		
-		case SET_COLOR_HSV: 
-			Set_value(set_hsv_color[0], (byte)serial_data[2]);
-			Set_value(set_hsv_color[1], (byte)serial_data[3]);
-			Set_value(set_hsv_color[2], (byte)serial_data[4]);
-			break;
 
 		case SET_GRADIENT:
 			Set_value(gradient_color_1[0], (byte)serial_data[2]);
@@ -609,24 +613,31 @@ void Serial_process(){
 			Set_value_boolean(siren_reverse, serial_data[2]);
 			break;
 
-		case STROBE:
-			Set_value(strobe_color[0], (byte)serial_data[2]);
-			Set_value(strobe_color[1], (byte)serial_data[3]);
-			Set_value(strobe_color[2], (byte)serial_data[4]);
-			Set_value(strobe_delay, (byte)serial_data[1]);
-			break;
-
 		case MATRIX:
-			Set_value(matrix_color[0], (byte)serial_data[2]);
-			Set_value(matrix_color[1], (byte)serial_data[3]);
-			Set_value(matrix_color[2], (byte)serial_data[4]);
-			Set_value(matrix_delay, (byte)serial_data[1]);
+			Set_value(matrix_color_hsv[0], (byte)serial_data[2]);
+			Set_value(matrix_color_hsv[1], (byte)serial_data[3]);
+			Set_value(matrix_color_hsv[2], (byte)serial_data[4]);
+			Set_value(matrix_delay_hsv, (byte)serial_data[1]);
 			break;
 
 		case SET_COLOR_RGB:
 			Set_value(set_rgb_color[0], (byte)serial_data[2]);
 			Set_value(set_rgb_color[1], (byte)serial_data[3]);
 			Set_value(set_rgb_color[2], (byte)serial_data[4]);
+			break;
+
+		case SET_STROBE:
+			Set_value(strobe_color_rgb[0], (byte)serial_data[2]);
+			Set_value(strobe_color_rgb[1], (byte)serial_data[3]);
+			Set_value(strobe_color_rgb[2], (byte)serial_data[4]);
+			Set_value(strobe_delay_rgb, (byte)serial_data[1]);
+			break;
+
+		case SET_MATRIX:
+			Set_value(matrix_color_rgb[0], (byte)serial_data[2]);
+			Set_value(matrix_color_rgb[1], (byte)serial_data[3]);
+			Set_value(matrix_color_rgb[2], (byte)serial_data[4]);
+			Set_value(matrix_delay_rgb, (byte)serial_data[1]);
 			break;
 		
 		default:
@@ -655,106 +666,58 @@ void Remote_receive(){
 		
 		switch (ir_data){
 			case CH1:
-				Serial.println(F("CH-"));		// DEBUG
 				channel = 0;
 				break;
 			case CH2:
-				Serial.println(F("CH"));		// DEBUG
 				channel = 1;
 				break;
 			case CH3:
-				Serial.println(F("CH+"));		// DEBUG
 				channel = 2;
 				break;
-			
-			case PREVIOUS:
-				Serial.println(F("Previous"));		// DEBUG
-				break;
-			case NEXT:
-				Serial.println(F("Next"));		// DEBUG
-				break;
 			case PLAY:
-				Serial.println(F("Play"));		// DEBUG
 				PlayPause();
 				break;
-
-			case MINUS:
-				Serial.println(F("-"));		// DEBUG
-				break;
-			case PLUS:
-				Serial.println(F("+"));		// DEBUG
-				break;
 			case EQ:
-				Serial.println(F("EQ"));		// DEBUG
 				EQ_active();
 				break;
-			
-			case BUTT_0:
-				Serial.println(F("0"));		// DEBUG
-				break;
-			case BUTT_100:
-				Serial.println(F("100"));		// DEBUG
-				break;
-			case BUTT_200:
-				Serial.println(F("200"));		// DEBUG
-				break;
-
 			case BUTT_1:
-				Serial.println(F("1"));		// DEBUG
 				current_effect = SET_COLOR_HSV;
 				Mode_change();
 				break;
 			case BUTT_2:
-				Serial.println(F("2"));		// DEBUG
 				current_effect = SET_GRADIENT;
 				Mode_change();
 				break;
 			case BUTT_3:
-				Serial.println(F("3"));		// DEBUG
 				current_effect = RAINBOW;
 				Mode_change();
 				break;
-
 			case BUTT_4:
-				Serial.println(F("4"));		// DEBUG
 				current_effect = POLICE_SIREN;
 				Mode_change();
 				break;
 			case BUTT_5:
-				Serial.println(F("5"));		// DEBUG
 				current_effect = STROBE;
 				Mode_change();
 				break;
 			case BUTT_6:
-				Serial.println(F("6"));		// DEBUG
 				current_effect = MATRIX;
 				Mode_change();
 				break;
-
 			case BUTT_7:
-				Serial.println(F("7"));		// DEBUG
 				current_effect = PRESET_COLOR;
 				Mode_change();
 				break;
 			case BUTT_8:
-				Serial.println(F("8"));		// DEBUG
 				current_effect = PRESET_GRADIENT;
 				Mode_change();
 				break;
 			case BUTT_9:
-				Serial.println(F("9"));		// DEBUG
 				current_effect = PRESET_RAINBOW;
 				Mode_change();
 				break;
 
 			case BUTT_PRESSED:
-				if(last_butt == MINUS){
-					Serial.print(F(" \"-\" "));		// DEBUG
-				}
-				if(last_butt == PLUS){
-					Serial.print(F(" \"+\" "));		// DEBUG
-				}
-				Serial.println(F("held"));		// DEBUG
 				if(last_butt == MINUS || last_butt == PLUS){
 					butt_held_flag = true;
 					adj = 10;
@@ -778,14 +741,16 @@ void Show_effect(){
 			case SET_GRADIENT: Gradient(gradient_color_1[0], gradient_color_1[1], gradient_color_1[2], gradient_color_2[0], gradient_color_2[1], gradient_color_2[2]); break;
 			case RAINBOW: Rainbow(rainbow_size, rainbow_delay); break;
 			case POLICE_SIREN: Police_siren(siren_delay); break;
-			case STROBE: Strobe(strobe_color[0], strobe_color[1], strobe_color[2], strobe_delay); break;
-			case MATRIX: Matrix(matrix_color[0], matrix_color[1], matrix_color[2], matrix_delay); break;
+			case STROBE: Strobe_HSV(strobe_color_hsv[0], strobe_color_hsv[1], strobe_color_hsv[2], strobe_delay_hsv); break;
+			case MATRIX: Matrix_HSV(matrix_color_hsv[0], matrix_color_hsv[1], matrix_color_hsv[2], matrix_delay_hsv); break;
 
 			case PRESET_COLOR: fill_solid(leds, NUM_LEDS, CRGB::Aqua); break;
 			case PRESET_GRADIENT: fill_gradient(leds, NUM_LEDS, CHSV(180, 255, 255), CHSV(60, 255, 255), FORWARD_HUES); break;
 			case PRESET_RAINBOW: Rainbow(3, 30); break;
 			case SET_COLOR_RGB: Set_Colour_RGB(set_rgb_color[0], set_rgb_color[1], set_rgb_color[2]); break;
-			
+			case SET_STROBE: Strobe_RGB(strobe_color_rgb[0], strobe_color_rgb[1], strobe_color_rgb[2], strobe_delay_rgb); break;
+			case SET_MATRIX: Matrix_rgb(matrix_color_rgb[0], matrix_color_rgb[1], matrix_color_rgb[2], matrix_delay_rgb); break;
+
 			default: break;
 		}
 	}
@@ -806,16 +771,10 @@ void Show_effect(){
 
 void setup() {
 	Serial.begin(9600);
-	Serial.println(F("Startup"));   // DEBUG
-
 	Debounce_delay(2000);		// Startup delay
 
 	pinMode(IR_PIN, INPUT);
 	pinMode(LEDS_PIN, INPUT);
-
-	if (!IRLremote.begin(IR_PIN)){		// DEBUG
-		Serial.println(F("You did not choose a valid pin."));
-	}
 		
 	FastLED.addLeds <WS2812B, LEDS_PIN, GRB> (leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
 	FastLED.setMaxPowerInVoltsAndMilliamps(5, CURRENT_LIMIT);
@@ -830,13 +789,11 @@ void loop() {
 	}
 
 	Serial_receive();
-
 	Remote_receive();
 
 	if(serial_flag){
 		Serial_process();
 	}
-
 	if(ir_flag){
 		Remote_process();
 	}

@@ -7,7 +7,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="../css/set_color.css">
+	<link rel="stylesheet" href="../css/brightness.css">
 
 	<script type="text/javascript" src="../js/script.js"></script>
 	<script type="text/javascript" src="/eel.js"></script>
@@ -16,20 +16,17 @@
 </head>
 
 <body>
-	<h1 class="greeting">Set color: </h1>
+	<h1 class="greeting">Brightness</h1>
 
 	<section >
 		<div class="row">
 			
 			<article>
-				<h2>Choose color</h2>
+				<h2>Modify brightness:</h2>
 
-				<input type="color" name="col" id="color_picker" value="#5378e0">
+				<input type="range" name="form_slider1" id="slider" value="80" min="0" max="255" step="1" onchange="get_brightness()"/>
 			</article>
 		</div>
-		
-
-		<button type="button" onclick="get_set_color()">Set strip</button>
 	</section>
 </body>
 </html>
