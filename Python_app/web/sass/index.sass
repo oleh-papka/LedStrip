@@ -3,19 +3,27 @@
 
 
 // ==== Main ====
+section
+	flex-direction: row
+	flex-wrap: wrap
+	align-items: start
+
 article
-	max-height: 400px
-	width: 250px
+	margin: 0
+	text-align: start
+	width: 200px 
 	
 	&:hover
 		border: 1px solid #5379e098
 
 	h2
-		margin: 10px 0
+		text-align: center
+		margin: 15px 0
+		width: 175px
 
 	.photo
-		height: 120px
-		width: 230px
+		height: 100px
+		width: 170px
 		overflow: hidden
 		border-radius: 15px
 
@@ -25,13 +33,13 @@ article
 			object-fit: cover	
 
 	.text
-		width: 230px
+		width: 170px
 		margin: 10px 0 15px
 		
 		p
 			line-height: 1.5rem
 			font-weight: 400
-			margin: 0 5px
+			margin: 7px 5px
 
 	
 			

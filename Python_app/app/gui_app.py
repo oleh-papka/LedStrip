@@ -98,7 +98,7 @@ def get_brightness(val):
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
 try:
-	eel.start('html/index.html', host='localhost', size=(600, 600))
+	eel.start('html/index.html', host='localhost', size=(500, 600))
 except:
 	arduino.close()
 	print("End of program")
