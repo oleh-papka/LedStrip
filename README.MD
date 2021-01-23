@@ -45,7 +45,7 @@ Also added control from the PC via serial port
 - [x] Add PC data input
 - [ ] Add audio spectrum analyzer
 - [ ] Add auto brightness
-- [ ] Add new features to descktop app
+- [ ] Add new features to desktop app
 
 ## :octocat: Contributing
 
