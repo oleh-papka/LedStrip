@@ -109,6 +109,7 @@ button {
   width: 300px;
   height: 50px;
   border-radius: 15px;
+  cursor: pointer;
 }
 
 button:hover {
@@ -196,4 +197,46 @@ button:hover {
 
 #settings-icon:hover {
   fill: #5378e0;
+}
+
+h3 {
+  margin: 10px 0 0;
+}
+
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+textarea {
+  margin: 15px 20px 15px 0;
+  width: 300px;
+  min-height: 55px;
+  padding: 10px 15px;
+  background-color: #dfdfdf;
+  color: #0f0c29;
+  outline: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  resize: none;
+  border-radius: 15px;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+button {
+  width: 120px;
+  margin: 0;
+  height: 50px;
 }

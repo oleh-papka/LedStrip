@@ -1,12 +1,37 @@
 import eel
 import serial
 import time
+import sys
+import glob
 
-arduino = serial.Serial(port='COM5', baudrate=9600, timeout=.1)
-
-eel.init('D:\Arduino\LedStrip\Python_app\web') # Needed full path to folder
+port_Error = False
+current_port = None
 
 data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+# Checks for available ports
+def serial_ports():
+	if sys.platform.startswith('win'):
+		ports = ['COM%s' % (i + 1) for i in range(256)]
+	elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+		# This excludes your current terminal "/dev/tty"
+		ports = glob.glob('/dev/tty[A-Za-z]*')
+	elif sys.platform.startswith('darwin'):
+		ports = glob.glob('/dev/tty.*')
+	else:
+		raise EnvironmentError('Unsupported platform')
+
+	result = []
+	for port in ports:
+		try:
+			s = serial.Serial(port)
+			s.close()
+			result.append(port)
+		except (OSError, serial.SerialException):
+			pass
+	return result
+
 
 def gether_data(data):
 	data_string = ''
@@ -15,6 +40,39 @@ def gether_data(data):
 	print("{" + data_string + "}")
 	arduino.write(bytes(data_string, 'utf-8'))		# Sample put strip blue 
 	time.sleep(0.15)
+
+
+@eel.expose
+def ports_availabe():
+	global ports, arduino, port_Error, current_port
+	try:
+		arduino.close()
+		ports = serial_ports()
+		if len(ports) == 0:
+			raise AssertionError
+		elif current_port not in ports:
+			current_port = ports[0]
+			arduino = serial.Serial(port=str(current_port), baudrate=9600, timeout=.1)
+		else:
+			arduino = serial.Serial(port=str(current_port), baudrate=9600, timeout=.1)
+	except:
+		port_Error = True
+	
+	if current_port == None:
+		return 1
+
+	message = "There are ports: "
+	num = len(ports) - 1
+	for i in range(len(ports)):
+		if num >= 1:
+			message += str(ports[i]) + ", "
+			num -=1
+		else:
+			message += str(ports[i])
+		
+	message += "\nCurrently used: " + str(current_port)
+	return message
+
 
 
 @eel.expose
@@ -97,8 +155,38 @@ def get_brightness(val):
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
+
+@eel.expose
+def set_port(user_port):
+	global current_port, arduino
+	try:
+		arduino.close()
+	except:
+		return 1
+	if user_port not in ports:
+		return 1
+	else:
+		current_port = user_port
+		arduino = serial.Serial(port=str(current_port), baudrate=9600, timeout=.1)
+
+
+try:
+	ports = serial_ports()
+	current_port = ports[0]
+	arduino = serial.Serial(port=str(current_port), baudrate=9600, timeout=.1)
+except:
+	port_Error = True
+
+
+
+eel.init('D:\Arduino\LedStrip\Python_app\web') # Needed full path to folder
+
 try:
 	eel.start('html/index.html', host='localhost', size=(500, 620))
 except:
-	arduino.close()
-	print("End of program")
+	if port_Error:
+		print("End of program, with invalid port Error")
+	else:
+		arduino.close()
+		print("End of program")
+	
