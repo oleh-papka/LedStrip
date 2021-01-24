@@ -4,7 +4,7 @@
 
 $background-color: #373d4b
 $item-color:	#303241
-$accet-color: #5378e0
+$accent-color: #5378e0
 
 $text-primary-color: #ffffff
 $text-secondary-color: #dfdfdf
@@ -84,7 +84,7 @@ input, button
 	height: 30px
 	width: 100px
 	text-align: center
-	caret-color: $accet-color
+	caret-color: $accent-color
 	margin: 10px 0 15px
 
 button
@@ -96,9 +96,9 @@ button
 	border-radius: 15px
 
 	&:hover
-		color: $accet-color
+		color: $accent-color
 		background-color: #303241a2
-		border: 2px solid $accet-color
+		border: 2px solid $accent-color
 
 
 #color_picker
@@ -113,6 +113,18 @@ button
 	height: 30px
 	width: 100px
 
+#brightness
+	margin: 10px 0 15px
+	padding: 0
+	width: 300px
+	min-height: 120px
+
+	input
+		margin: 0
+		padding: 0
+		width: 65%
+
+
 ::-webkit-scrollbar 
   display: none
 
@@ -123,3 +135,32 @@ button
 	padding: 20px 0 25px
 	user-select: none
 	background-color: $item-color
+
+#back-to-menu
+	position: absolute
+	top: 22px
+	left: 15px
+	width: 35px
+	height: 35px
+	margin: 0
+
+#back-icon
+	fill: #5379e06b
+
+	&:hover
+		fill: $accent-color
+	
+
+#settings
+	position: absolute
+	top: 25px
+	left: 15px
+	width: 35px
+	height: 35px
+	margin: 0
+
+#settings-icon
+	fill: #5379e06b
+
+	&:hover
+		fill: $accent-color

@@ -132,6 +132,19 @@ button:hover {
   width: 100px;
 }
 
+#brightness {
+  margin: 10px 0 15px;
+  padding: 0;
+  width: 300px;
+  min-height: 120px;
+}
+
+#brightness input {
+  margin: 0;
+  padding: 0;
+  width: 65%;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -149,4 +162,38 @@ button:hover {
       -ms-user-select: none;
           user-select: none;
   background-color: #303241;
+}
+
+#back-to-menu {
+  position: absolute;
+  top: 22px;
+  left: 15px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+}
+
+#back-icon {
+  fill: #5379e06b;
+}
+
+#back-icon:hover {
+  fill: #5378e0;
+}
+
+#settings {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+}
+
+#settings-icon {
+  fill: #5379e06b;
+}
+
+#settings-icon:hover {
+  fill: #5378e0;
 }

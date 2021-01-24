@@ -4,7 +4,7 @@ import time
 
 arduino = serial.Serial(port='COM5', baudrate=9600, timeout=.1)
 
-eel.init('web') # Needed full path to folder
+eel.init('D:\Arduino\LedStrip\Python_app\web') # Needed full path to folder
 
 data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -98,7 +98,7 @@ def get_brightness(val):
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
 try:
-	eel.start('html/index.html', host='localhost', size=(500, 600))
+	eel.start('html/index.html', host='localhost', size=(500, 620))
 except:
 	arduino.close()
 	print("End of program")
