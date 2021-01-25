@@ -161,16 +161,14 @@ void fill_few(boolean first_half, CRGB color, byte amount = 10){
 
 //----- Show animation on startup
 void Start_up(){
-	for(byte i = 0; i < NUM_LEDS*2; i++){
-		if(i < NUM_LEDS){
-			leds[i] = CRGB::Lime;
-		}
+	for(byte i = 0; i < NUM_LEDS/2; i++){
+		leds[NUM_LEDS/2 + i] = CRGB::Lime;
+		leds[(NUM_LEDS/2 - 1) - i] = CRGB::Lime;
+
 		FastLED.show();
 		Debounce_delay(30);
-		fadeToBlackBy(leds, NUM_LEDS, 40);
 	}
-
-	Debounce_delay(500);
+	Debounce_delay(300);
 }
 
 
@@ -351,7 +349,7 @@ byte matrix_color_hsv[3] = {127, 255, 255};		// Array of colors (default IDK, lo
 byte matrix_delay_hsv = 20;		// Speed of "matrix" transition, delay between strip updates (default 20 ms)
 
 void Matrix_HSV(byte ch1, byte ch2, byte ch3, byte delay){
-	fadeToBlackBy(leds, NUM_LEDS, random(5, 50));
+	fadeToBlackBy(leds, NUM_LEDS, 50);
 
 	leds[random(0, NUM_LEDS)] = CHSV(ch1, ch2, ch3);
 	Debounce_delay(delay);	
@@ -363,7 +361,7 @@ byte matrix_color_rgb[3] = {0, 0, 0};		// Array of colors (RGB)
 byte matrix_delay_rgb = 20;		// Speed of "matrix" transition, delay between strip updates (default 20 ms)
 
 void Matrix_rgb(byte ch1, byte ch2, byte ch3, byte delay){
-	fadeToBlackBy(leds, NUM_LEDS, random(5, 50));
+	fadeToBlackBy(leds, NUM_LEDS, 50);
 
 	leds[random(0, NUM_LEDS)] = CRGB(ch1, ch2, ch3);
 	Debounce_delay(delay);	
@@ -775,6 +773,10 @@ void setup() {
 
 	pinMode(IR_PIN, INPUT);
 	pinMode(LEDS_PIN, INPUT);
+
+	if (!IRLremote.begin(IR_PIN)){		// DEBUG
+		Serial.println(F("You did not choose a valid pin."));
+	}
 		
 	FastLED.addLeds <WS2812B, LEDS_PIN, GRB> (leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
 	FastLED.setMaxPowerInVoltsAndMilliamps(5, CURRENT_LIMIT);

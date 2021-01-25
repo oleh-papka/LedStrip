@@ -222,6 +222,7 @@ textarea {
   padding: 10px 15px;
   background-color: #dfdfdf;
   color: #0f0c29;
+  caret-color: #5378e0;
   outline: none;
   -webkit-user-select: none;
      -moz-user-select: none;
