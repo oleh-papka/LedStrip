@@ -170,6 +170,136 @@ def set_port(user_port):
 		arduino = serial.Serial(port=str(current_port), baudrate=9600, timeout=.1)
 
 
+@eel.expose
+def get_set_preset_color1(color):
+	global data
+	data[0] = 13
+	data[2] = int(color[1:3], 16)
+	data[3] = int(color[3:5], 16)
+	data[4] = int(color[5:7], 16)
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def get_set_preset_color2(color):
+	global data
+	data[0] = 14
+	data[2] = int(color[1:3], 16)
+	data[3] = int(color[3:5], 16)
+	data[4] = int(color[5:7], 16)
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def get_set_preset_color3(color):
+	global data
+	data[0] = 15
+	data[2] = int(color[1:3], 16)
+	data[3] = int(color[3:5], 16)
+	data[4] = int(color[5:7], 16)
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def set_preset_color1():
+	global data
+	data[0] = 13
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def set_preset_color2():
+	global data
+	data[0] = 14
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def set_preset_color3():
+	global data
+	data[0] = 15
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def get_gradient_preset1(color1, color2):
+	global data
+	data[0] = 16
+	data[2] = int(color1[1:3], 16)
+	data[3] = int(color1[3:5], 16)
+	data[4] = int(color1[5:7], 16)
+	data[5] = int(color2[1:3], 16)
+	data[6] = int(color2[3:5], 16)
+	data[7] = int(color2[5:7], 16)
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def get_gradient_preset2(color1, color2):
+	global data
+	data[0] = 17
+	data[2] = int(color1[1:3], 16)
+	data[3] = int(color1[3:5], 16)
+	data[4] = int(color1[5:7], 16)
+	data[5] = int(color2[1:3], 16)
+	data[6] = int(color2[3:5], 16)
+	data[7] = int(color2[5:7], 16)
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def set_preset_gradient1():
+	global data
+	data[0] = 16
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def set_preset_gradient2():
+	global data
+	data[0] = 17
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def get_rainbow_preset1(speed, size):
+	global data
+	data[0] = 18
+	data[1] = speed
+	data[2] = size
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def get_rainbow_preset2(speed, size):
+	global data
+	data[0] = 19
+	data[1] = speed
+	data[2] = size
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def set_preset_rainbow1():
+	global data
+	data[0] = 18
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+@eel.expose
+def set_preset_rainbow2():
+	global data
+	data[0] = 19
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+
 try:
 	ports = serial_ports()
 	current_port = ports[0]

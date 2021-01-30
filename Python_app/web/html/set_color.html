@@ -25,11 +25,20 @@
 	</div>
 
 	<section >
-		<article>
+		<div class="row">
+			<article>
 				<h2>Choose color</h2>
 
 				<input type="color" name="col" id="color_picker" value="#5378e0">
-		</article>
+			</article>
+
+			<article>
+				<button class="preset-button" type="button" onclick="set_preset_color1()">Preset 1</button>
+				<button class="preset-button" type="button" onclick="set_preset_color2()">Preset 2</button>
+				<button class="preset-button" type="button" onclick="set_preset_color3()">Preset 3</button>
+			</article>
+		</div>
+		
 
 		<article id="brightness">
 			<h2>Modify brightness:</h2>

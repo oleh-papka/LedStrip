@@ -110,13 +110,23 @@ uint8_t arr_i = 0;		// Number array index
 #define MATRIX 6
 
 #define PRESET_COLOR 7
+#define PRESET_COLOR_1 13
+#define PRESET_COLOR_2 14
+#define PRESET_COLOR_3 15
+
 #define PRESET_GRADIENT 8
+#define PRESET_GRADIENT_1 16
+#define PRESET_GRADIENT_2 17
+
 #define PRESET_RAINBOW 9
+#define PRESET_RAINBOW_1 18
+#define PRESET_RAINBOW_2 19
 
 #define SET_BRIGHTNESS 0
 #define SET_COLOR_RGB 10
 #define SET_STROBE 11
 #define SET_MATRIX 12
+
 
 
 //----- The delay function
@@ -368,6 +378,80 @@ void Matrix_rgb(byte ch1, byte ch2, byte ch3, byte delay){
 }
 
 
+//----- Preset color 1-3
+byte preset_color_num = 0;	// Number for effect preset
+byte preset_color_1[3] = {0, 255, 0};
+byte preset_color_2[3] = {0, 0, 255};
+byte preset_color_3[3] = {0, 255, 255};
+
+void Preset_color(byte num){
+	switch (num){
+		case 0:
+			fill_solid(leds, NUM_LEDS, CRGB(preset_color_1[0], preset_color_1[1], preset_color_1[2]));
+			break;
+		case 1:
+			fill_solid(leds, NUM_LEDS, CRGB(preset_color_2[0], preset_color_2[1], preset_color_2[2]));
+			break;
+		case 2:
+			fill_solid(leds, NUM_LEDS, CRGB(preset_color_3[0], preset_color_3[1], preset_color_3[2]));
+			break;
+		
+		default:
+			num = 0;
+			break;
+	}	
+}
+
+
+//----- Preset gradient 1-2
+byte preset_gradient_num = 0;	// Number for effect preset
+byte preset_gradient_color_1_1[3] = {0, 255, 0};		// This is only for static rainbow
+byte preset_gradient_color_1_2[3] = {0, 0, 255};		// This is only for static rainbow
+
+byte preset_gradient_color_2_1[3] = {0, 0, 255};
+byte preset_gradient_color_2_2[3] = {0, 255, 0};
+
+
+void Preset_gradient(byte num){
+	switch (num){
+		case 0:
+			fill_gradient_RGB(leds, NUM_LEDS, CRGB(preset_gradient_color_1_1[0], preset_gradient_color_1_1[1], preset_gradient_color_1_1[2]), CRGB(preset_gradient_color_1_2[0], preset_gradient_color_1_2[1], preset_gradient_color_1_2[2]), FORWARD_HUES);
+			break;
+		case 1:
+			Gradient(preset_gradient_color_2_1[0], preset_gradient_color_2_1[1], preset_gradient_color_2_1[2], preset_gradient_color_2_2[0], preset_gradient_color_2_2[1], preset_gradient_color_2_2[2]);
+			break;
+		
+		default:
+			num = 0;
+			break;
+	}
+}
+
+
+//----- Preset rainbow 1-3
+byte preset_rainbow_num = 0;	// Number for effect preset
+
+byte preset_rainbow_speed_1 = 20;
+byte preset_rainbow_size_1 = 2;
+
+byte preset_rainbow_speed_2 = 255;
+byte preset_rainbow_size_2 = 7;
+
+void Preset_rainbow(byte num){
+	switch (num){
+		case 0:
+			Rainbow(preset_rainbow_size_1, preset_rainbow_speed_1);
+			break;
+		case 1:
+			Rainbow(preset_rainbow_size_2, preset_rainbow_speed_2);
+			break;
+		
+		default:
+			num = 0;
+			break;
+	}
+}
+
 //==================== Functions ====================
 
 //----- Sets or unsets pause 
@@ -565,12 +649,31 @@ void Remote_process(){
 				break;
 
 			case PRESET_COLOR:
-				break;
+				switch (last_butt){
+					case CH1:	preset_color_num = 0; break;
+					case CH2: preset_color_num = 1; break;
+					case CH3: preset_color_num = 2; break;
+										
+					default: preset_color_num = 0; break;
+				}
 			
 			case PRESET_GRADIENT:
+				switch (last_butt){
+					case CH1:	preset_gradient_num = 0; break;
+					case CH2: preset_gradient_num = 1; break;
+					case CH3: preset_gradient_num = 2; break;
+										
+					default: preset_gradient_num = 0; break;
+				}
 				break;
 			
 			case PRESET_RAINBOW:
+				switch (last_butt){
+					case CH1:	preset_rainbow_num = 0; break;
+					case CH2: preset_rainbow_num = 1; break;
+										
+					default: preset_rainbow_num = 0; break;
+				}
 				break;
 			
 			default:
@@ -584,7 +687,16 @@ void Remote_process(){
 void Serial_process(){
 	byte temp_effect_num = current_effect;
 	current_effect = (byte)serial_data[0];
-	
+
+	if(serial_data[1] == 0 && serial_data[2] == 0 &&
+		serial_data[3] == 0 && serial_data[4] == 0 && 
+		serial_data[5] == 0 && serial_data[6] == 0 &&
+		serial_data[7] == 0){
+			
+		serial_flag = false;
+		return;
+	}
+
 	switch (current_effect){
 		case SET_BRIGHTNESS:
 			Set_value(brightness, (byte)serial_data[1]);
@@ -638,10 +750,56 @@ void Serial_process(){
 			Set_value(matrix_delay_rgb, (byte)serial_data[1]);
 			break;
 		
+		case PRESET_COLOR_1:
+			Set_value(preset_color_1[0], (byte)serial_data[2]);
+			Set_value(preset_color_1[1], (byte)serial_data[3]);
+			Set_value(preset_color_1[2], (byte)serial_data[4]);
+			break;
+
+		case PRESET_COLOR_2:
+			Set_value(preset_color_2[0], (byte)serial_data[2]);
+			Set_value(preset_color_2[1], (byte)serial_data[3]);
+			Set_value(preset_color_2[2], (byte)serial_data[4]);
+			break;
+		
+		case PRESET_COLOR_3:
+			Set_value(preset_color_3[0], (byte)serial_data[2]);
+			Set_value(preset_color_3[1], (byte)serial_data[3]);
+			Set_value(preset_color_3[2], (byte)serial_data[4]);
+			break;
+
+		case PRESET_GRADIENT_1:
+			Set_value(preset_gradient_color_1_1[0], (byte)serial_data[2]);
+			Set_value(preset_gradient_color_1_1[1], (byte)serial_data[3]);
+			Set_value(preset_gradient_color_1_1[2], (byte)serial_data[4]);
+			Set_value(preset_gradient_color_1_2[0], (byte)serial_data[5]);
+			Set_value(preset_gradient_color_1_2[1], (byte)serial_data[6]);
+			Set_value(preset_gradient_color_1_2[2], (byte)serial_data[7]);			
+			break;
+
+		case PRESET_GRADIENT_2:
+			Set_value(preset_gradient_color_2_1[0], (byte)serial_data[2]);
+			Set_value(preset_gradient_color_2_1[1], (byte)serial_data[3]);
+			Set_value(preset_gradient_color_2_1[2], (byte)serial_data[4]);
+			Set_value(preset_gradient_color_2_2[0], (byte)serial_data[5]);
+			Set_value(preset_gradient_color_2_2[1], (byte)serial_data[6]);
+			Set_value(preset_gradient_color_2_2[2], (byte)serial_data[7]);			
+			break;
+
+		case PRESET_RAINBOW_1: 
+			Set_value(preset_rainbow_speed_1, (byte)serial_data[1]);
+			Set_value(preset_rainbow_size_1, (byte)serial_data[2]);
+			break;
+
+		case PRESET_RAINBOW_2: 
+			Set_value(preset_rainbow_speed_2, (byte)serial_data[1]);
+			Set_value(preset_rainbow_size_2, (byte)serial_data[2]);
+			break;
+
 		default:
 			break;
 	}
-
+	
 	serial_flag = false;
 }
 
@@ -742,12 +900,22 @@ void Show_effect(){
 			case STROBE: Strobe_HSV(strobe_color_hsv[0], strobe_color_hsv[1], strobe_color_hsv[2], strobe_delay_hsv); break;
 			case MATRIX: Matrix_HSV(matrix_color_hsv[0], matrix_color_hsv[1], matrix_color_hsv[2], matrix_delay_hsv); break;
 
-			case PRESET_COLOR: fill_solid(leds, NUM_LEDS, CRGB::Aqua); break;
-			case PRESET_GRADIENT: fill_gradient(leds, NUM_LEDS, CHSV(180, 255, 255), CHSV(60, 255, 255), FORWARD_HUES); break;
+			case PRESET_COLOR: Preset_color(preset_color_num); break;
+			case PRESET_GRADIENT: Preset_gradient(preset_gradient_num); break;
 			case PRESET_RAINBOW: Rainbow(3, 30); break;
 			case SET_COLOR_RGB: Set_Colour_RGB(set_rgb_color[0], set_rgb_color[1], set_rgb_color[2]); break;
 			case SET_STROBE: Strobe_RGB(strobe_color_rgb[0], strobe_color_rgb[1], strobe_color_rgb[2], strobe_delay_rgb); break;
 			case SET_MATRIX: Matrix_rgb(matrix_color_rgb[0], matrix_color_rgb[1], matrix_color_rgb[2], matrix_delay_rgb); break;
+
+			case PRESET_COLOR_1: Preset_color(0); break;
+			case PRESET_COLOR_2: Preset_color(1); break;
+			case PRESET_COLOR_3: Preset_color(2); break;
+
+			case PRESET_GRADIENT_1: Preset_gradient(0); break;
+			case PRESET_GRADIENT_2: Preset_gradient(1); break;
+
+			case PRESET_RAINBOW_1: Preset_rainbow(0); break;
+			case PRESET_RAINBOW_2: Preset_rainbow(1); break;
 
 			default: break;
 		}

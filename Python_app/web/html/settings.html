@@ -39,7 +39,130 @@
 	
 			<button onclick="set_new_port()">Set port</button>
 		</div>
+
+		<div class="divider"></div>
+
+		<h3>Set color presets:</h3>
+
+		<div class="row">
+			<article>
+				<h3>Preset 1:</h3>
+
+				<input type="color" name="col" id="color_picker_pr1" value="#5378e0">
+
+				<button onclick="get_set_preset_color1()">Set color</button>
+			</article>
+
+			<article>
+				<h3>Preset 2:</h3>
+
+				<input type="color" name="col" id="color_picker_pr2" value="#5378e0">
+
+				<button onclick="get_set_preset_color2()">Set color</button>
+			</article>
+
+			<article>
+				<h3>Preset 3:</h3>
+
+				<input type="color" name="col" id="color_picker_pr3" value="#5378e0">
+
+				<button onclick="get_set_preset_color3()">Set color</button>
+			</article>
+		</div>
+
 		
+		<div class="divider"></div>
+
+		<h3>Set gradient presets:</h3>
+		<div class="row">
+			<article class="gradient-article">
+				<h3>Preset 1:</h3>
+
+				<div class="row">
+					<p>Color 1:</p>
+
+					<input type="color" name="col" id="color_picker1_pr1" value="#5378e0">
+				</div>
+
+				<div class="row">
+					<p>Color 2:</p>
+
+					<input type="color" name="col" id="color_picker2_pr1" value="#5378e0">
+				</div>
+
+				<button onclick="get_gradient_preset1()">Set color</button>
+			</article>
+
+
+			<article class="gradient-article">
+				<h3>Preset 2:</h3>
+
+				<div class="row">
+					<p>Color 1:</p>
+
+					<input type="color" name="col" id="color_picker1_pr2" value="#5378e0">
+				</div>
+
+				<div class="row">
+					<p>Color 2:</p>
+
+					<input type="color" name="col" id="color_picker2_pr2" value="#5378e0">
+				</div>
+
+				<button onclick="get_gradient_preset2()">Set color</button>
+			</article>
+		</div>
+
+		<div class="divider"></div>
+
+		<h3>Set rainbow presets:</h3>
+		<div class="row">
+			<article class="rainbow-article">
+				<h3>Preset 1:</h3>
+
+				<div class="row">
+					<p>Speed:</p>
+
+					<div class="inputs">
+						<input type="tel" placeholder="Speed" id="speed_pr1">
+					</div>
+				</div>
+
+				<div class="row">
+					<p>Size:</p>
+
+					<div class="inputs">
+						<input type="tel" placeholder="Size" id="size_pr1">
+					</div>
+				</div>
+
+				<button onclick="get_rainbow_preset1()">Set preset</button>
+			</article>
+
+
+			<article class="rainbow-article">
+				<h3>Preset 2:</h3>
+
+				<div class="row">
+					<p>Speed:</p>
+
+					<div class="inputs">
+						<input type="tel" placeholder="Speed" id="speed_pr2">
+					</div>
+				</div>
+
+				<div class="row">
+					<p>Size:</p>
+
+					<div class="inputs">
+						<input type="tel" placeholder="Size" id="size_pr2">
+					</div>
+				</div>
+
+				<button onclick="get_rainbow_preset2()">Set preset</button>
+			</article>
+		</div>
+
 	</section>
 </body>
 </html>

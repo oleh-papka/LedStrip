@@ -25,6 +25,33 @@ async function get_set_color(){
 	eel.get_set_color(color);
 }
 
+async function get_set_preset_color1(){
+	var color = document.getElementById("color_picker_pr1").value;
+	eel.get_set_preset_color1(color);
+}
+
+async function get_set_preset_color2(){
+	var color = document.getElementById("color_picker_pr2").value;
+	eel.get_set_preset_color2(color);
+}
+
+async function get_set_preset_color3(){
+	var color = document.getElementById("color_picker_pr3").value;
+	eel.get_set_preset_color3(color);
+}
+
+async function set_preset_color1(){
+	eel.set_preset_color1();
+}
+
+async function set_preset_color2(){
+	eel.set_preset_color2();
+}
+
+async function set_preset_color3(){
+	eel.set_preset_color3();
+}
+
 async function get_rainbow(){
 	var speed = document.getElementById("speed").value;
 	if (document.getElementById("speed").value.length == 0){
@@ -33,7 +60,7 @@ async function get_rainbow(){
 	}
 	if (speed < 20) {
 		speed = 20;
-		document.getElementById("speed").value = 0;
+		document.getElementById("speed").value = 20;
 	}
 	if (speed > 255) {
 		speed = 255;
@@ -47,7 +74,7 @@ async function get_rainbow(){
 	}
 	if (size < 1) {
 		size = 1;
-		document.getElementById("size").value = 0;
+		document.getElementById("size").value = 1;
 	}
 	if (size > 20) {
 		size = 20;
@@ -57,11 +84,110 @@ async function get_rainbow(){
 	eel.get_rainbow(speed, size);
 }
 
+
+async function get_rainbow_preset1(){
+	var speed = document.getElementById("speed_pr1").value;
+	if (document.getElementById("speed_pr1").value.length == 0){
+		speed = 20;
+		document.getElementById("speed_pr1").value = 20;
+	}
+	if (speed < 20) {
+		speed = 20;
+		document.getElementById("speed_pr1").value = 20;
+	}
+	if (speed > 255) {
+		speed = 255;
+		document.getElementById("speed_pr1").value = 255;
+	}
+	
+	var size = document.getElementById("size_pr1").value;
+	if (document.getElementById("size_pr1").value.length == 0) {
+		size = 7;
+		document.getElementById("size_pr1").value = 7;
+	}
+	if (size < 1) {
+		size = 1;
+		document.getElementById("size_pr1").value = 1;
+	}
+	if (size > 20) {
+		size = 20;
+		document.getElementById("size_pr1").value = 20;
+	}
+	
+	eel.get_rainbow_preset1(speed, size);
+}
+
+async function get_rainbow_preset2(){
+	var speed = document.getElementById("speed_pr2").value;
+	if (document.getElementById("speed_pr2").value.length == 0){
+		speed = 20;
+		document.getElementById("speed_pr2").value = 20;
+	}
+	if (speed < 20) {
+		speed = 20;
+		document.getElementById("speed_pr2").value = 20;
+	}
+	if (speed > 255) {
+		speed = 255;
+		document.getElementById("speed_pr2").value = 255;
+	}
+	
+	var size = document.getElementById("size_pr2").value;
+	if (document.getElementById("size_pr2").value.length == 0) {
+		size = 7;
+		document.getElementById("size_pr2").value = 7;
+	}
+	if (size < 1) {
+		size = 1;
+		document.getElementById("size_pr2").value = 1;
+	}
+	if (size > 20) {
+		size = 20;
+		document.getElementById("size_pr2").value = 20;
+	}
+	
+	eel.get_rainbow_preset2(speed, size);
+}
+
+
+async function set_preset_rainbow1(){
+	eel.set_preset_rainbow1();
+}
+
+async function set_preset_rainbow2(){
+	eel.set_preset_rainbow2();
+}
+
+
+
+
 async function get_gradient(){
 	var color1 = document.getElementById("color_picker1").value;
 	var color2 = document.getElementById("color_picker2").value;
 	eel.get_gradient(color1, color2);
 }
+
+async function get_gradient_preset1(){
+	var color1 = document.getElementById("color_picker1_pr1").value;
+	var color2 = document.getElementById("color_picker2_pr1").value;
+	eel.get_gradient_preset1(color1, color2);
+}
+
+async function get_gradient_preset2(){
+	var color1 = document.getElementById("color_picker1_pr2").value;
+	var color2 = document.getElementById("color_picker2_pr2").value;
+	eel.get_gradient_preset2(color1, color2);
+}
+
+async function set_preset_gradient1(){
+	eel.set_preset_gradient1();
+}
+
+async function set_preset_gradient2(){
+	eel.set_preset_gradient2();
+}
+
+
 
 async function get_strobe(){
 	var color = document.getElementById("color_picker").value;

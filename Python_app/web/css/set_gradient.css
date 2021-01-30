@@ -165,6 +165,16 @@ button:hover {
   background-color: #303241;
 }
 
+.preset-button {
+  width: 120px;
+  margin: 0;
+  background-color: #373d4b77;
+}
+
+.preset-button:hover {
+  background-color: #373d4b77;
+}
+
 #back-to-menu {
   position: absolute;
   top: 22px;
@@ -197,4 +207,21 @@ button:hover {
 
 #settings-icon:hover {
   fill: #5378e0;
+}
+
+#presets {
+  margin: 10px 0 15px;
+  min-height: 80px;
+  width: 300px;
+}
+
+#presets .row {
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#brightness {
+  margin-bottom: 10px;
 }
