@@ -415,7 +415,7 @@ byte preset_gradient_color_2_2[3] = {0, 255, 0};
 void Preset_gradient(byte num){
 	switch (num){
 		case 0:
-			fill_gradient_RGB(leds, NUM_LEDS, CRGB(preset_gradient_color_1_1[0], preset_gradient_color_1_1[1], preset_gradient_color_1_1[2]), CRGB(preset_gradient_color_1_2[0], preset_gradient_color_1_2[1], preset_gradient_color_1_2[2]), FORWARD_HUES);
+			fill_gradient_RGB(leds, NUM_LEDS, CRGB(preset_gradient_color_1_1[0], preset_gradient_color_1_1[1], preset_gradient_color_1_1[2]), CRGB(preset_gradient_color_1_2[0], preset_gradient_color_1_2[1], preset_gradient_color_1_2[2]));
 			break;
 		case 1:
 			Gradient(preset_gradient_color_2_1[0], preset_gradient_color_2_1[1], preset_gradient_color_2_1[2], preset_gradient_color_2_2[0], preset_gradient_color_2_2[1], preset_gradient_color_2_2[2]);

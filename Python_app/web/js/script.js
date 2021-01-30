@@ -1,4 +1,4 @@
-async function get_ports() {
+async function get_ports(){
 	let port = await eel.ports_availabe()();
 	if(port == 1){
 		alert("Error: no devices found");
@@ -9,7 +9,7 @@ async function get_ports() {
 }
 
 
-async function set_new_port() {
+async function set_new_port(){
 	var port = document.getElementById('port_set').value;
 	if (document.getElementById("port_set").value.length != 0){
 		let message = await eel.set_port(port)();
@@ -17,6 +17,16 @@ async function set_new_port() {
 			alert("Error: wrong port")
 		}
 	}
+}
+
+async function save_for_app(){
+	eel.save_for_app();
+	document.getElementById('save-for-app').value = "All settings been saved for app";
+}
+
+async function restore_for_app(){
+	eel.restore_for_app();
+	document.getElementById('restore-for-app').value = "All settings been reset for app";
 }
 
 

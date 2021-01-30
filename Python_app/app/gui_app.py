@@ -3,11 +3,30 @@ import serial
 import time
 import sys
 import glob
+import json
+from os import path
 
 port_Error = False
 current_port = None
 
 data = [0, 0, 0, 0, 0, 0, 0, 0]
+json_data = None
+
+
+
+if (path.exists('D:\\Arduino\\LedStrip\\Python_app\\app\\new_data.json')):
+	with open('D:\\Arduino\\LedStrip\\Python_app\\app\\new_data.json', 'r') as json_file:
+		json_data = json.load(json_file)
+else:
+	with open('D:\\Arduino\\LedStrip\\Python_app\\app\\default_data.json', 'r') as json_file:
+		json_data = json.load(json_file)
+
+
+
+def save_data():
+	with open('D:\\Arduino\\LedStrip\\Python_app\\app\\new_data.json', 'w') as outfile:
+		json.dump(json_data, outfile)
+
 
 
 # Checks for available ports
@@ -40,6 +59,103 @@ def gether_data(data):
 	print("{" + data_string + "}")
 	arduino.write(bytes(data_string, 'utf-8'))		# Sample put strip blue 
 	time.sleep(0.15)
+
+
+
+@eel.expose
+def save_for_app():
+	global data
+	save_data()
+
+	data[0] = 13
+	data[2] = json_data['preset_color'][0][0]
+	data[3] = json_data['preset_color'][0][1]
+	data[4] = json_data['preset_color'][0][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 14
+	data[2] = json_data['preset_color'][1][0]
+	data[3] = json_data['preset_color'][1][1]
+	data[4] = json_data['preset_color'][1][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 15
+	data[2] = json_data['preset_color'][2][0]
+	data[3] = json_data['preset_color'][2][1]
+	data[4] = json_data['preset_color'][2][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 16
+	data[2] = json_data['preset_gradient'][0][0]
+	data[3] = json_data['preset_gradient'][0][1]
+	data[4] = json_data['preset_gradient'][0][2]
+	data[5] = json_data['preset_gradient'][0][3]
+	data[6] = json_data['preset_gradient'][0][4]
+	data[7] = json_data['preset_gradient'][0][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 17
+	data[2] = json_data['preset_gradient'][1][0]
+	data[3] = json_data['preset_gradient'][1][1]
+	data[4] = json_data['preset_gradient'][1][2]
+	data[5] = json_data['preset_gradient'][1][3]
+	data[6] = json_data['preset_gradient'][1][4]
+	data[7] = json_data['preset_gradient'][1][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+
+@eel.expose
+def restore_for_app():
+	global data
+	with open('D:\\Arduino\\LedStrip\\Python_app\\app\\default_data.json', 'r') as json_file:
+		json_data = json.load(json_file)
+
+	data[0] = 13
+	data[2] = json_data['preset_color'][0][0]
+	data[3] = json_data['preset_color'][0][1]
+	data[4] = json_data['preset_color'][0][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 14
+	data[2] = json_data['preset_color'][1][0]
+	data[3] = json_data['preset_color'][1][1]
+	data[4] = json_data['preset_color'][1][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 15
+	data[2] = json_data['preset_color'][2][0]
+	data[3] = json_data['preset_color'][2][1]
+	data[4] = json_data['preset_color'][2][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 16
+	data[2] = json_data['preset_gradient'][0][0]
+	data[3] = json_data['preset_gradient'][0][1]
+	data[4] = json_data['preset_gradient'][0][2]
+	data[5] = json_data['preset_gradient'][0][3]
+	data[6] = json_data['preset_gradient'][0][4]
+	data[7] = json_data['preset_gradient'][0][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 17
+	data[2] = json_data['preset_gradient'][1][0]
+	data[3] = json_data['preset_gradient'][1][1]
+	data[4] = json_data['preset_gradient'][1][2]
+	data[5] = json_data['preset_gradient'][1][3]
+	data[6] = json_data['preset_gradient'][1][4]
+	data[7] = json_data['preset_gradient'][1][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
 
 
 @eel.expose
@@ -177,6 +293,13 @@ def get_set_preset_color1(color):
 	data[2] = int(color[1:3], 16)
 	data[3] = int(color[3:5], 16)
 	data[4] = int(color[5:7], 16)
+
+	json_data['preset_color'][0][0] = data[2]
+	json_data['preset_color'][0][1] = data[3]
+	json_data['preset_color'][0][2] = data[4]
+
+	json_data['preset_color_hex'][0] = color
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -187,6 +310,13 @@ def get_set_preset_color2(color):
 	data[2] = int(color[1:3], 16)
 	data[3] = int(color[3:5], 16)
 	data[4] = int(color[5:7], 16)
+
+	json_data['preset_color'][1][0] = data[2]
+	json_data['preset_color'][1][1] = data[3]
+	json_data['preset_color'][1][2] = data[4]
+
+	json_data['preset_color_hex'][1] = color
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -197,6 +327,13 @@ def get_set_preset_color3(color):
 	data[2] = int(color[1:3], 16)
 	data[3] = int(color[3:5], 16)
 	data[4] = int(color[5:7], 16)
+
+	json_data['preset_color'][2][0] = data[2]
+	json_data['preset_color'][2][1] = data[3]
+	json_data['preset_color'][2][2] = data[4]
+
+	json_data['preset_color_hex'][2] = color
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -233,6 +370,17 @@ def get_gradient_preset1(color1, color2):
 	data[5] = int(color2[1:3], 16)
 	data[6] = int(color2[3:5], 16)
 	data[7] = int(color2[5:7], 16)
+
+	json_data['preset_gradient'][0][0] = data[2]
+	json_data['preset_gradient'][0][1] = data[3]
+	json_data['preset_gradient'][0][2] = data[4]
+	json_data['preset_gradient'][0][3] = data[5]
+	json_data['preset_gradient'][0][4] = data[6]
+	json_data['preset_gradient'][0][5] = data[7]
+
+	json_data['preset_gradient_hex'][0][0] = color1
+	json_data['preset_gradient_hex'][0][1] = color2
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -246,6 +394,17 @@ def get_gradient_preset2(color1, color2):
 	data[5] = int(color2[1:3], 16)
 	data[6] = int(color2[3:5], 16)
 	data[7] = int(color2[5:7], 16)
+
+	json_data['preset_gradient'][1][0] = data[2]
+	json_data['preset_gradient'][1][1] = data[3]
+	json_data['preset_gradient'][1][2] = data[4]
+	json_data['preset_gradient'][1][3] = data[5]
+	json_data['preset_gradient'][1][4] = data[6]
+	json_data['preset_gradient'][1][5] = data[7]
+
+	json_data['preset_gradient_hex'][1][0] = color1
+	json_data['preset_gradient_hex'][1][1] = color2
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -272,6 +431,10 @@ def get_rainbow_preset1(speed, size):
 	data[1] = speed
 	data[2] = size
 	gether_data(data)
+
+	json_data['preset_rainbow'][0][0] = data[1]
+	json_data['preset_rainbow'][0][1] = data[2]
+
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
 @eel.expose
@@ -280,6 +443,10 @@ def get_rainbow_preset2(speed, size):
 	data[0] = 19
 	data[1] = speed
 	data[2] = size
+
+	json_data['preset_rainbow'][1][0] = data[1]
+	json_data['preset_rainbow'][1][1] = data[2]
+
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -309,7 +476,7 @@ except:
 
 
 
-eel.init('D:\Arduino\LedStrip\Python_app\web') # Needed full path to folder
+eel.init('D:\\Arduino\\LedStrip\\Python_app\\web') # Needed full path to folder
 
 try:
 	eel.start('html/index.html', host='localhost', size=(500, 620))

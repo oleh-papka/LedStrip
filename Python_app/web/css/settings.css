@@ -289,9 +289,9 @@ button {
 
 .gradient-article .row {
   width: 100%;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .rainbow-article {
@@ -308,4 +308,12 @@ button {
 
 .rainbow-article button {
   width: 130px;
+}
+
+.save-btn {
+  width: 150px;
+}
+
+.save-area {
+  width: 280px;
 }
