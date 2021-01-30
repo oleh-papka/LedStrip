@@ -22,7 +22,7 @@ Also added control from the PC via serial port, now it's more like a project wit
 **There is:**
 - 2 - static effects + settings for them
 - 4 - dynamic effects + settings for them
-- 3 - presets (only could be acceced via remote, for now)
+- 3 - presets + settings for them (currently in opened session)
 
 **Effects:**
 - Static:
@@ -33,9 +33,9 @@ Also added control from the PC via serial port, now it's more like a project wit
 	- Police siren (Set speed and type: blue or red&blue)
 	- Strobe (HSV mode - only for remote)
 - Presets (Currently supported only for remote):	
-	- Preset color (Quickly set 1 color from settings in .cpp file)
-	- Preset gradient (Quickly set static rainbow from settings in .cpp file)
-	- Preset rainbow (Quickly set rainbow animation from settings in .cpp file)
+	- Preset color (Quickly set 1 color from settings, 3 available)
+	- Preset gradient (Quickly set static rainbow from settings, 2 available)
+	- Preset rainbow (Quickly set rainbow animation from settings, 2 available)
 
 **Used:**
 - [IRLremote](https://github.com/NicoHood/IRLremote) Arduino library
@@ -58,7 +58,8 @@ Changes on the horizon. New releases, new updates and of course new features wil
 - [x] ~~Added settings~~
 - [x] ~~Added auto port detecting and in app settings port changing~~
 - [x] ~~Added PC data input~~
-- [ ] Add presets, and customization
+- [x] ~~Added presets, and their customization~~
+- [ ] Add writing to memory
 - [ ] Add auto brightness
 - [ ] Add display (OLED)
 - [ ] Add audio spectrum analyzer (maybe)
