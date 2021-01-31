@@ -18,6 +18,7 @@
 #include <Arduino.h>
 #include "IRLremote.h"
 #include <FastLED.h>
+#include <EEPROM.h>
 
 
 //==================== Settings ====================
@@ -127,6 +128,7 @@ uint8_t arr_i = 0;		// Number array index
 #define SET_STROBE 11
 #define SET_MATRIX 12
 
+#define SAVE_SETTINGS 20
 
 
 //----- The delay function
@@ -217,21 +219,23 @@ void Set_Colour_HSV(byte ch1, byte ch2, byte ch3){
 //----- Gradient
 byte gradient_color_1[3] = {255, 0, 0};		// First color of gradient (default red in RGB)
 byte gradient_color_2[3] = {0, 0, 255};		// Second color of gradient (default blue in RGB)
-float gradient_index = (float)255 / NUM_LEDS;		// Num to fill with gradient all the strip
+// float gradient_index = (float)255 / NUM_LEDS;		// Num to fill with gradient all the strip
 boolean gradient_first_color_flag = true;		// All changes apply to first color (default true)
 
 void Gradient(byte ch1, byte ch2, byte ch3, byte ch4, byte ch5, byte ch6){
-	byte counter = 0;
+	// byte counter = 0;
 
 	CRGB col1 = CRGB(ch1, ch2, ch3);
 	CRGB col2  = CRGB(ch4, ch5, ch6);
 
-	CRGBPalette16 my_pal = CRGBPalette16( col1, col2);
+	// CRGBPalette16 my_pal = CRGBPalette16( col1, col2);
 
-	for( int i = 0; i < NUM_LEDS; ++i){
-		leds[i] = ColorFromPalette(my_pal, counter * floor(gradient_index));
-		counter++;
-	}
+	// for( int i = 0; i < NUM_LEDS; ++i){
+	// 	leds[i] = ColorFromPalette(my_pal, counter * floor(gradient_index));
+	// 	counter++;
+	// }
+
+	fill_gradient_RGB(leds, NUM_LEDS, col1, col2);
 }
 
 
@@ -415,7 +419,7 @@ byte preset_gradient_color_2_2[3] = {0, 255, 0};
 void Preset_gradient(byte num){
 	switch (num){
 		case 0:
-			fill_gradient_RGB(leds, NUM_LEDS, CRGB(preset_gradient_color_1_1[0], preset_gradient_color_1_1[1], preset_gradient_color_1_1[2]), CRGB(preset_gradient_color_1_2[0], preset_gradient_color_1_2[1], preset_gradient_color_1_2[2]));
+			Gradient(preset_gradient_color_1_1[0], preset_gradient_color_1_1[1], preset_gradient_color_1_1[2], preset_gradient_color_1_2[0], preset_gradient_color_1_2[1], preset_gradient_color_1_2[2]);
 			break;
 		case 1:
 			Gradient(preset_gradient_color_2_1[0], preset_gradient_color_2_1[1], preset_gradient_color_2_1[2], preset_gradient_color_2_2[0], preset_gradient_color_2_2[1], preset_gradient_color_2_2[2]);
@@ -453,6 +457,122 @@ void Preset_rainbow(byte num){
 }
 
 //==================== Functions ====================
+
+byte mem_addres = 0;	// Addres for EEPROM
+
+//----- Put settings to EEPROM
+void Save_settings_eeprom(){
+
+	// Writing [preset_color_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_color_1[i]);
+		mem_addres++;
+	}
+	// Writing [preset_color_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_color_2[i]);
+		mem_addres++;
+	}
+	// Writing [preset_color_3]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_color_3[i]);
+		mem_addres++;
+	}
+
+
+	// Writing [preset_gradient_color_1_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_gradient_color_1_1[i]);
+		mem_addres++;
+	}
+	// Writing [preset_gradient_color_1_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_gradient_color_1_2[i]);
+		mem_addres++;
+	}
+
+	// Writing [preset_gradient_color_2_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_gradient_color_2_1[i]);
+		mem_addres++;
+	}
+	// Writing [preset_gradient_color_2_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.put(mem_addres, preset_gradient_color_2_2[i]);
+		mem_addres++;
+	}
+
+	
+	// Writing [rainbow]
+	EEPROM.put(mem_addres, preset_rainbow_speed_1);
+	mem_addres++;
+	EEPROM.put(mem_addres, preset_rainbow_speed_2);
+	mem_addres++;
+
+	EEPROM.put(mem_addres, preset_rainbow_size_1);
+	mem_addres++;
+	EEPROM.put(mem_addres, preset_rainbow_size_2);
+
+	mem_addres = 0;
+}
+
+
+//----- Get settings from EEPROM
+void Get_settings_eeprom(){
+	// Getting [preset_color_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_color_1[i]);
+		mem_addres++;
+	}
+	// Getting [preset_color_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_color_2[i]);
+		mem_addres++;
+	}
+	// Getting [preset_color_3]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_color_3[i]);
+		mem_addres++;
+	}
+
+
+	// Getting [preset_gradient_color_1_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_gradient_color_1_1[i]);
+		mem_addres++;
+	}
+	// Getting [preset_gradient_color_1_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_gradient_color_1_2[i]);
+		mem_addres++;
+	}
+
+	// Getting [preset_gradient_color_2_1]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_gradient_color_2_1[i]);
+		mem_addres++;
+	}
+	// Getting [preset_gradient_color_2_2]
+	for (byte i = 0; i < 3; i++){
+		EEPROM.get(mem_addres, preset_gradient_color_2_2[i]);
+		mem_addres++;
+	}
+
+	
+	// Getting [rainbow]
+	EEPROM.get(mem_addres, preset_rainbow_speed_1);
+	mem_addres++;
+	EEPROM.get(mem_addres, preset_rainbow_speed_2);
+	mem_addres++;
+
+	EEPROM.get(mem_addres, preset_rainbow_size_1);
+	mem_addres++;
+	EEPROM.get(mem_addres, preset_rainbow_size_2);
+
+	mem_addres = 0;
+}
+
+
 
 //----- Sets or unsets pause 
 void PlayPause(){
@@ -688,6 +808,14 @@ void Serial_process(){
 	byte temp_effect_num = current_effect;
 	current_effect = (byte)serial_data[0];
 
+	if(current_effect == SAVE_SETTINGS){
+		Save_settings_eeprom();
+		Get_settings_eeprom();
+
+		serial_flag = false;
+		return;
+	}
+
 	if(serial_data[1] == 0 && serial_data[2] == 0 &&
 		serial_data[3] == 0 && serial_data[4] == 0 && 
 		serial_data[5] == 0 && serial_data[6] == 0 &&
@@ -696,6 +824,8 @@ void Serial_process(){
 		serial_flag = false;
 		return;
 	}
+
+	
 
 	switch (current_effect){
 		case SET_BRIGHTNESS:
@@ -951,6 +1081,7 @@ void setup() {
 	FastLED.setBrightness(brightness);
 
 	Start_up();
+	Get_settings_eeprom();
 }
 
 void loop() {

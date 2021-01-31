@@ -175,9 +175,9 @@
 
 		<h3>Save for all</h3>
 		<div class="row">
-			<textarea name="output" class="save-area" readonly placeholder="To save all preset changes for Arduino & app press button =>"></textarea>
+			<textarea name="output" id="save-for-all" class="save-area" readonly placeholder="To save all preset changes for Arduino & app press button =>"></textarea>
 	
-			<button class="save-btn" onclick="">Save for all</button>
+			<button class="save-btn" onclick="save_for_arduino()">Save for all</button>
 		</div>
 
 		<div class="divider"></div>
@@ -191,9 +191,9 @@
 
 		<h3>Reset for all</h3>
 		<div class="row">
-			<textarea name="output" class="save-area" readonly placeholder="To reset all preset changes in Arduino & app press button =>"></textarea>
+			<textarea name="output" id="restore-for-all" class="save-area" readonly placeholder="To reset all preset changes in Arduino & app press button =>"></textarea>
 	
-			<button class="save-btn" onclick="">Reset for all</button>
+			<button class="save-btn" onclick="restore_for_arduino()">Reset for all</button>
 		</div>
 
 		<div class="divider"></div>

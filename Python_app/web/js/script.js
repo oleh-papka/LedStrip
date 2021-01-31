@@ -29,6 +29,16 @@ async function restore_for_app(){
 	document.getElementById('restore-for-app').value = "All settings been reset for app";
 }
 
+async function save_for_arduino(){
+	eel.save_for_arduino();
+	document.getElementById('save-for-all').value = "All settings been saved for Arduino & app";
+}
+
+async function restore_for_arduino(){
+	eel.restore_for_arduino();
+	document.getElementById('restore-for-all').value = "All settings been reset for Arduino & app";
+}
+
 
 async function get_set_color(){
 	var color = document.getElementById("color_picker").value;

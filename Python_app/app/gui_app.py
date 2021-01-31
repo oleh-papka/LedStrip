@@ -65,7 +65,6 @@ def gether_data(data):
 @eel.expose
 def save_for_app():
 	global data
-	save_data()
 
 	data[0] = 13
 	data[2] = json_data['preset_color'][0][0]
@@ -107,6 +106,84 @@ def save_for_app():
 	data[7] = json_data['preset_gradient'][1][5]
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 18
+	data[1] = json_data['preset_rainbow'][0][0]
+	data[2] = json_data['preset_rainbow'][0][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 19
+	data[1] = json_data['preset_rainbow'][1][0]
+	data[2] = json_data['preset_rainbow'][1][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	save_data()
+
+
+@eel.expose
+def save_for_arduino():
+	global data
+
+	data[0] = 13
+	data[2] = json_data['preset_color'][0][0]
+	data[3] = json_data['preset_color'][0][1]
+	data[4] = json_data['preset_color'][0][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 14
+	data[2] = json_data['preset_color'][1][0]
+	data[3] = json_data['preset_color'][1][1]
+	data[4] = json_data['preset_color'][1][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 15
+	data[2] = json_data['preset_color'][2][0]
+	data[3] = json_data['preset_color'][2][1]
+	data[4] = json_data['preset_color'][2][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 16
+	data[2] = json_data['preset_gradient'][0][0]
+	data[3] = json_data['preset_gradient'][0][1]
+	data[4] = json_data['preset_gradient'][0][2]
+	data[5] = json_data['preset_gradient'][0][3]
+	data[6] = json_data['preset_gradient'][0][4]
+	data[7] = json_data['preset_gradient'][0][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 17
+	data[2] = json_data['preset_gradient'][1][0]
+	data[3] = json_data['preset_gradient'][1][1]
+	data[4] = json_data['preset_gradient'][1][2]
+	data[5] = json_data['preset_gradient'][1][3]
+	data[6] = json_data['preset_gradient'][1][4]
+	data[7] = json_data['preset_gradient'][1][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 18
+	data[1] = json_data['preset_rainbow'][0][0]
+	data[2] = json_data['preset_rainbow'][0][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 19
+	data[1] = json_data['preset_rainbow'][1][0]
+	data[2] = json_data['preset_rainbow'][1][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 20
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	save_data()
 
 
 @eel.expose
@@ -155,6 +232,86 @@ def restore_for_app():
 	data[7] = json_data['preset_gradient'][1][5]
 	gether_data(data)
 	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 18
+	data[1] = json_data['preset_rainbow'][0][0]
+	data[2] = json_data['preset_rainbow'][0][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 19
+	data[1] = json_data['preset_rainbow'][1][0]
+	data[2] = json_data['preset_rainbow'][1][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	save_data()
+
+
+@eel.expose
+def restore_for_arduino():
+	global data
+	with open('D:\\Arduino\\LedStrip\\Python_app\\app\\default_data.json', 'r') as json_file:
+		json_data = json.load(json_file)
+
+	data[0] = 13
+	data[2] = json_data['preset_color'][0][0]
+	data[3] = json_data['preset_color'][0][1]
+	data[4] = json_data['preset_color'][0][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 14
+	data[2] = json_data['preset_color'][1][0]
+	data[3] = json_data['preset_color'][1][1]
+	data[4] = json_data['preset_color'][1][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 15
+	data[2] = json_data['preset_color'][2][0]
+	data[3] = json_data['preset_color'][2][1]
+	data[4] = json_data['preset_color'][2][2]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 16
+	data[2] = json_data['preset_gradient'][0][0]
+	data[3] = json_data['preset_gradient'][0][1]
+	data[4] = json_data['preset_gradient'][0][2]
+	data[5] = json_data['preset_gradient'][0][3]
+	data[6] = json_data['preset_gradient'][0][4]
+	data[7] = json_data['preset_gradient'][0][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 17
+	data[2] = json_data['preset_gradient'][1][0]
+	data[3] = json_data['preset_gradient'][1][1]
+	data[4] = json_data['preset_gradient'][1][2]
+	data[5] = json_data['preset_gradient'][1][3]
+	data[6] = json_data['preset_gradient'][1][4]
+	data[7] = json_data['preset_gradient'][1][5]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 18
+	data[1] = json_data['preset_rainbow'][0][0]
+	data[2] = json_data['preset_rainbow'][0][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 19
+	data[1] = json_data['preset_rainbow'][1][0]
+	data[2] = json_data['preset_rainbow'][1][1]
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	data[0] = 20
+	gether_data(data)
+	data = [0, 0, 0, 0, 0, 0, 0, 0]
+
+	save_data()
 
 
 

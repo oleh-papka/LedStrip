@@ -22,7 +22,7 @@ Also added control from the PC via serial port, now it's more like a project wit
 **There is:**
 - 2 - static effects + settings for them
 - 4 - dynamic effects + settings for them
-- 3 - presets + settings for them (currently in opened session)
+- 3 - presets + settings for them
 
 **Effects:**
 - Static:
@@ -59,10 +59,8 @@ Changes on the horizon. New releases, new updates and of course new features wil
 - [x] ~~Added auto port detecting and in app settings port changing~~
 - [x] ~~Added PC data input~~
 - [x] ~~Added presets, and their customization~~
-- [ ] Add writing to memory
-- [ ] Add auto brightness
+- [x] ~~Add writing to memory~~
 - [ ] Add display (OLED)
-- [ ] Add audio spectrum analyzer (maybe)
 
 
 ## :octocat: Contributing
