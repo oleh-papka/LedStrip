@@ -1,13 +1,14 @@
-# Arduino LedStrip menu
+# Arduino LedStrip v0.2
+
+**Simple LED strip controls (remote and from PC)**
 
 Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everyhting else was found in Google)
 
-This basically is pretty simple "menu" with some effects for remote control of addressable LED strip. 
+This basically is simple "menu" with effects for addressable LED strip ws2812b. Controlled via remote or PC (GUI app). 
 
-Also added control from the PC via serial port, now it's more like a project with different control types for addres LED strip. So now you can do almost everything via your PC as via remote.
 
 **Supported:**
-- PC control (via my app, via serial port Arduino IDE sending raw comands)
+- PC control (via my app or via serial port Arduino IDE sending raw comands)
 - Remote control
 
 **Based on:**
@@ -43,28 +44,30 @@ Also added control from the PC via serial port, now it's more like a project wit
 - [Eel](https://github.com/ChrisKnott/Eel) Python library
 - [pySerial](https://github.com/pyserial/pyserial) Python library
 
-> Somebody: *So, how it works?*
->
-> Me: *Magic*
 
-**But seriously**
+Now you can control LED strip as you want. 
 
-Everything works... at least works without problems) for now you can control your LED strip as you want. Know other variants for controlling it, please write me [here (Mail)](mailto:olegpapka2@gmail.com) or [here (Telegram)](https://t.me/oleg_folder).
+
+## Upgrade Steps & Installation
+- Just download new version from [GitHub Releases tab](https://github.com/OlegPapka2/LedStrip/releases/tag/v0.2) (app.rar) or [here (direct download link)](https://github.com/OlegPapka2/LedStrip/releases/download/v0.2/app.rar) 
+- Extract files from archive to folder you want
+- Find in that folder "gui_app.exe" - run program or right-click the program name, and then click Send To > Desktop (Create shortcut), forget about that folder, and then run it via shortcut all the time
+- Done ✔
+	- Now you can go and do magic with LED strip  
 
 ## In future:
 
-Changes on the horizon. New releases, new updates and of course new features will be added as soon as I can make them. Project becomes bigger, and now it's looking a little bit more practical in use, and much more user friendly.
+Changes on the horizon. New releases, new updates and of course new features will be added as soon as I can make them (or if I want to). Project becomes bigger, and now it's looking a little bit more practical in use, and much more user friendly. 
 
-- [x] ~~Added settings~~
-- [x] ~~Added auto port detecting and in app settings port changing~~
-- [x] ~~Added PC data input~~
-- [x] ~~Added presets, and their customization~~
-- [x] ~~Add writing to memory~~
+Know other methods, or want me to add something new please write me [here (Mail)](mailto:olegpapka2@gmail.com) or [here (Telegram)](https://t.me/oleg_folder).
+
 - [ ] Add display (OLED)
+- [ ] Add new effects
+- [ ] Add more functions to app
 
 
 ## :octocat: Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For huge changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
