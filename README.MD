@@ -1,4 +1,4 @@
-# Arduino LedStrip v0.2
+# Arduino LedStrip v0.2.1
 
 **Simple LED strip controls (remote and from PC)**
 
@@ -49,7 +49,7 @@ Now you can control LED strip as you want.
 
 
 ## Upgrade Steps & Installation
-- Just download new version from [GitHub Releases tab](https://github.com/OlegPapka2/LedStrip/releases/tag/v0.2) (app.rar) or [here (direct download link)](https://github.com/OlegPapka2/LedStrip/releases/download/v0.2/app.rar) 
+- Just download new version from [GitHub Releases tab](https://github.com/OlegPapka2/LedStrip/releases/tag/v0.2.1) (app.rar) or [here (direct download link)](https://github.com/OlegPapka2/LedStrip/releases/download/v0.2.1/app.rar) 
 - Extract files from archive to folder you want
 - Find in that folder "gui_app.exe" - run program or right-click the program name, and then click Send To > Desktop (Create shortcut), forget about that folder, and then run it via shortcut all the time
 - Done ✔
