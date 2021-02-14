@@ -61,9 +61,8 @@ Changes on the horizon. New releases, new updates and of course new features wil
 
 Know other methods, or want me to add something new please write me [here (Mail)](mailto:olegpapka2@gmail.com) or [here (Telegram)](https://t.me/oleg_folder).
 
-- [ ] Add display (OLED)
-- [ ] Add new effects
-- [ ] Add more functions to app
+- [ ] New effects
+- [ ] New functions for app
 
 
 ## :octocat: Contributing
