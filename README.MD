@@ -2,7 +2,7 @@
 
 **Simple LED strip controls (remote and from PC)**
 
-Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everyhting else was found in Google)
+Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everything else was found in Google)
 
 This basically is simple "menu" with effects for addressable LED strip ws2812b. Controlled via remote or PC (GUI app). 
 
