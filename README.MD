@@ -55,15 +55,6 @@ Now you can control LED strip as you want.
 - Done ✔
 	- Now you can go and do magic with LED strip  
 
-## In future:
-
-Changes on the horizon. New releases, new updates and of course new features will be added as soon as I can make them (or if I want to). Project becomes bigger, and now it's looking a little bit more practical in use, and much more user friendly. 
-
-Know other methods, or want me to add something new please write me [here (Mail)](mailto:olegpapka2@gmail.com) or [here (Telegram)](https://t.me/oleg_folder).
-
-- [ ] New effects
-- [ ] New functions for app
-
 
 ## :octocat: Contributing
 
