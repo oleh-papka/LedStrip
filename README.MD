@@ -1,31 +1,30 @@
 # Arduino LedStrip v0.2.1
 
-**Simple LED strip controls (remote and from PC)**
+## Simple LED strip controls (remote and from PC)
 
-Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everything else was found in Google)
-
+Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everything else was found in Google).  
 This basically is simple "menu" with effects for addressable LED strip ws2812b. Controlled via remote or PC (GUI app). 
 
+## About
 
-**Supported:**
+### Controls supported:
 - PC control (via my app or via serial port Arduino IDE sending raw comands)
 - Remote control
 
-**Based on:**
+### Build with:
 - Addres LED strip ws2812b
 - Arduino Nano
 - vs1838b IR receiver
 - Car_mp3 remote
 - For PC control you need to connect it to PC (so also needed USB cable)
 
-## About
+### Effects overview
+```
+2 static effects + settings for them
+4 dynamic effects + settings for them
+3 presets + settings for them
+```
 
-**There is:**
-- 2 - static effects + settings for them
-- 4 - dynamic effects + settings for them
-- 3 - presets + settings for them
-
-**Effects:**
 - Static:
 	- Set color (HSV mode - only for remote)
 	- Set 2 color linear gradient (HSV mode - only for remote)
@@ -38,22 +37,19 @@ This basically is simple "menu" with effects for addressable LED strip ws2812b. 
 	- Preset gradient (Quickly set static rainbow from settings, 2 available)
 	- Preset rainbow (Quickly set rainbow animation from settings, 2 available)
 
-**Used:**
+## Dependencies
 - [IRLremote](https://github.com/NicoHood/IRLremote) Arduino library
 - [FastLED](https://github.com/FastLED/FastLED) Arduino library
 - [Eel](https://github.com/ChrisKnott/Eel) Python library
 - [pySerial](https://github.com/pyserial/pyserial) Python library
 
 
-Now you can control LED strip as you want. 
-
-
 ## Upgrade Steps & Installation
-- Just download new version from [GitHub Releases tab](https://github.com/OlegPapka2/LedStrip/releases/tag/v0.2.1) (app.rar) or [here (direct download link)](https://github.com/OlegPapka2/LedStrip/releases/download/v0.2.1/app.rar) 
-- Extract files from archive to folder you want
-- Find in that folder "gui_app.exe" - run program or right-click the program name, and then click Send To > Desktop (Create shortcut), forget about that folder, and then run it via shortcut all the time
-- Done ✔
-	- Now you can go and do magic with LED strip  
+1. Just download new version from [GitHub Releases tab](https://github.com/OlegPapka2/LedStrip/releases/tag/v0.2.1) (app.rar) or [here (direct download link)](https://github.com/OlegPapka2/LedStrip/releases/download/v0.2.1/app.rar) 
+2. Extract files from archive to folder you want
+3. Find in that folder "gui_app.exe" - run program or right-click the program name, and then click Send To > Desktop (Create shortcut), forget about that folder, and then run it via shortcut all the time
+4. Done ✔  
+	4.1 Now you can go and do magic with LED strip  
 
 
 ## :octocat: Contributing
