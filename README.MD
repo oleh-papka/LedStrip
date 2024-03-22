@@ -52,7 +52,7 @@ This basically is simple "menu" with effects for addressable LED strip ws2812b. 
 	4.1 Now you can go and do magic with LED strip  
 
 
-## :octocat: Contributing
+## Contributing
 
 Pull requests are welcome. For huge changes, please open an issue first to discuss what you would like to change.
 
