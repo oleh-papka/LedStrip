@@ -5,6 +5,11 @@
 Inspiration for the project by [AlexGyver](https://github.com/AlexGyver/ColorMusic), everything else was found in Google).  
 This basically is simple "menu" with effects for addressable LED strip ws2812b. Controlled via remote or PC (GUI app). 
 
+## Overview
+
+https://github.com/Oleh-Papka/LedStrip/assets/60508074/3a0728cc-7bc4-473a-bdc6-75cb52f42be9
+
+
 ## About
 
 ### Controls supported:
